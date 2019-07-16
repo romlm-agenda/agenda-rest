@@ -1,7 +1,7 @@
 /**
  * @since 16 juil. 2019
  */
-package org.agenda.security;
+package org.agenda.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

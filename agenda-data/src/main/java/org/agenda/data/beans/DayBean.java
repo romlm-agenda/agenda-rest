@@ -11,7 +11,6 @@ import java.util.Locale;
 
 import org.agenda.model.Event;
 import org.agenda.model.Occupation;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  * @author LE MIERE Romain
@@ -19,7 +18,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
  */
 public class DayBean {
 
-	@Indexed(unique = true)
 	private LocalDate date;
 	private List<Occupation> occupations = new ArrayList<>();
 	private List<Event> events = new ArrayList<>();

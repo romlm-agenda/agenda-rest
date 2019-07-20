@@ -7,6 +7,7 @@ import org.agenda.data.dao.user.UserDao;
 import org.agenda.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,6 +24,11 @@ public class UserServiceImpl implements UserService {
 	public User createUser(User user) throws DuplicateKeyException {
 		// TODO Implement the method
 		return null;
+	}
+
+	@Override
+	public User loginUser(String email, String password) throws BadCredentialsException {
+		return users.loginUser(email, password);
 	}
 
 }

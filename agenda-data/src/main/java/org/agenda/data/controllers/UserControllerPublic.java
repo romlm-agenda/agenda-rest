@@ -3,8 +3,6 @@
  */
 package org.agenda.data.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.agenda.data.services.UserService;
 import org.agenda.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/users/")
-public class UserController {
+@RequestMapping("/users/public/")
+public class UserControllerPublic {
 
 	@Autowired
 	private UserService users;
 
-	@GetMapping
-	public ResponseEntity<User> loginUser(@RequestParam String email, @RequestParam String password,
-			HttpServletRequest request) {
+	@GetMapping("/login")
+	public ResponseEntity<User> loginUser(@RequestParam String email, @RequestParam String password) {
 		User user = new User();
 		user.setId("Hello world");
 		return ResponseEntity.ok(user);

@@ -1,7 +1,7 @@
 /**
  * @since 17 juil. 2019
  */
-package org.agenda.data.beans;
+package org.agenda.data.model.beans;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,7 +62,8 @@ public class UserBean {
 	 * @param id the id to set
 	 */
 	public final void setId(String id) {
-		this.id = new ObjectId(id);
+		if (id != null && ObjectId.isValid(id))
+			this.id = new ObjectId(id);
 	}
 
 	/**

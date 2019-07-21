@@ -1,7 +1,7 @@
 /**
  * @since 17 juil. 2019
  */
-package org.agenda.data.beans;
+package org.agenda.data.model.beans;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;

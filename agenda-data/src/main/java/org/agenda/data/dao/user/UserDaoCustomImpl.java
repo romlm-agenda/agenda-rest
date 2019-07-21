@@ -3,7 +3,7 @@
  */
 package org.agenda.data.dao.user;
 
-import org.agenda.data.beans.UserBean;
+import org.agenda.data.model.beans.UserBean;
 import org.agenda.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

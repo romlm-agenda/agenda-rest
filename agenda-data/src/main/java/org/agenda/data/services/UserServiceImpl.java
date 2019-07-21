@@ -4,6 +4,8 @@
 package org.agenda.data.services;
 
 import org.agenda.data.dao.user.UserDao;
+import org.agenda.data.model.beans.UserBean;
+import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -22,8 +24,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) throws DuplicateKeyException {
-		// TODO Implement the method
-		return null;
+		user.setId(null);
+		UserBean userToAdd = UserMapper.mapUserToUserBean(user);
+		if ((userToAdd = users.save(userToAdd)) == null) {
+			throw new DuplicateKeyException("duplicate key email");
+		}
+		return UserMapper.mapUserBeanToUser(userToAdd);
 	}
 
 	@Override

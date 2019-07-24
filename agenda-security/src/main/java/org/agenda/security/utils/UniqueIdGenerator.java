@@ -6,6 +6,7 @@ package org.agenda.security.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -13,39 +14,29 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class UniqueIdGenerator {
-	
+
 	private static final String DEFAULT_ALGORITHM = "sha-1";
 
-	private String algorithm = DEFAULT_ALGORITHM;
-	
 	/**
 	 * 
 	 */
-	public UniqueIdGenerator() {
-		super();
+	private UniqueIdGenerator() {
 	}
 
-	public UniqueIdGenerator(String algorithm) {
-		this.algorithm = algorithm;
-		try {
-			MessageDigest.getInstance(algorithm);
-		}catch(NoSuchAlgorithmException e) {
-			this.algorithm = DEFAULT_ALGORITHM;
-		}
-	}
-
-	public String generateRandomId() {
+	public static String generateRandomId(int minimumCharacters, int range, Optional<String> hashAlgorithm) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(LocalDate.now().toEpochDay());
 
-		int bounds = ThreadLocalRandom.current().nextInt(20, 40 + 1);
+		int bounds = ThreadLocalRandom.current().nextInt(minimumCharacters, minimumCharacters + range + 1);
 		for (int i = 0; i < bounds; i++)
 			builder.append(Character.toString((char) ThreadLocalRandom.current().nextInt(32, 126 + 1)));
+		if (hashAlgorithm.isPresent())
+			return hashText(builder.toString(), hashAlgorithm.get());
+		return builder.toString();
 
-		return this.hashText(builder.toString(), this.algorithm);
 	}
 
-	private String hashText(String text, String hashAlgorithm) {
+	private static String hashText(String text, String hashAlgorithm) {
 
 		String result = "";
 		try {
@@ -59,6 +50,7 @@ public class UniqueIdGenerator {
 			result = sb.toString();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+			return hashText(text, DEFAULT_ALGORITHM);
 		}
 		return result;
 

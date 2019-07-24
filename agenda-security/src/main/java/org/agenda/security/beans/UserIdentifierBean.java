@@ -5,26 +5,20 @@ package org.agenda.security.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
 
 /**
  * @author LE MIERE Romain
  *
  */
 @Entity(name = "userIds")
-@Table(indexes = { @Index(unique = true, columnList = "userId") }, name = "user_ids")
 public class UserIdentifierBean {
 
 	@Id
-	@GeneratedValue
-	private Long id;
 	@Column(unique = true, nullable = false, updatable = false)
 	private String userId;
-	@Column(unique = true, nullable = false, updatable = false)
-	private String token;
+	@Column(unique = true, nullable = false)
+	private String authKey;
 
 	/**
 	 * 
@@ -35,38 +29,12 @@ public class UserIdentifierBean {
 
 	/**
 	 * @param userId
-	 * @param token
+	 * @param authKey
 	 */
-	public UserIdentifierBean(String userId, String token) {
+	public UserIdentifierBean(String userId, String authKey) {
 		super();
 		this.userId = userId;
-		this.token = token;
-	}
-
-	/**
-	 * @param id
-	 * @param userId
-	 * @param token
-	 */
-	public UserIdentifierBean(Long id, String userId, String token) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.token = token;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public final Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public final void setId(Long id) {
-		this.id = id;
+		this.authKey = authKey;
 	}
 
 	/**
@@ -84,17 +52,17 @@ public class UserIdentifierBean {
 	}
 
 	/**
-	 * @return the token
+	 * @return the authKey
 	 */
-	public final String getToken() {
-		return token;
+	public final String getAuthKey() {
+		return authKey;
 	}
 
 	/**
-	 * @param token the token to set
+	 * @param authKey the authKey to set
 	 */
-	public final void setToken(String token) {
-		this.token = token;
+	public final void setAuthKey(String authKey) {
+		this.authKey = authKey;
 	}
 
 }

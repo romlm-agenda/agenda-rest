@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserIdentifiersDao extends JpaRepository<UserIdentifierBean, Long> {
 
-	Optional<UserIdentifierBean> findByUserId(String UserId);
+	Optional<UserIdentifierBean> findByUserIdAndToken(String userId, String token);
+	
+	void deleteByUserId(String userId);
 
 }

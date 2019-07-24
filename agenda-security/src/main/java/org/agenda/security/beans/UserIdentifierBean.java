@@ -15,13 +15,13 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "userIds")
-@Table(indexes = { @Index(unique = true, columnList = "userId") })
+@Table(indexes = { @Index(unique = true, columnList = "userId") }, name = "user_ids")
 public class UserIdentifierBean {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(unique = true, nullable = false, updatable = false, columnDefinition = "user_id")
+	@Column(unique = true, nullable = false, updatable = false)
 	private String userId;
 	@Column(unique = true, nullable = false, updatable = false)
 	private String token;
@@ -31,6 +31,16 @@ public class UserIdentifierBean {
 	 */
 	public UserIdentifierBean() {
 		super();
+	}
+
+	/**
+	 * @param userId
+	 * @param token
+	 */
+	public UserIdentifierBean(String userId, String token) {
+		super();
+		this.userId = userId;
+		this.token = token;
 	}
 
 	/**

@@ -33,20 +33,20 @@ public class UserIdentifiersController {
 		String token = UniqueIdGenerator.generateRandomId(15, 15, Optional.of("md5"));
 		UserIdentifierBean bean = new UserIdentifierBean(userId, token);
 		userIds.save(bean);
-		return bean.getToken();
+		return bean.getAuthKey();
 
 	}
 
 	@PostMapping
 	public boolean isUserValid(@RequestParam String userId, @RequestParam String token) {
-		Optional<UserIdentifierBean> bean = userIds.findByUserIdAndToken(userId, token);
+		Optional<UserIdentifierBean> bean = userIds.findByUserIdAndAuthKey(userId, token);
 
 		return bean.isPresent();
 	}
 
 	@DeleteMapping
 	public void deleteUser(@RequestParam String userId) {
-		userIds.deleteByUserId(userId);
+		userIds.deleteById(userId);
 	}
 
 }

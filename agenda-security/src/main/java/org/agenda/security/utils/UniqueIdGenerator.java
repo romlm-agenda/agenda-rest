@@ -13,6 +13,26 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class UniqueIdGenerator {
+	
+	private static final String DEFAULT_ALGORITHM = "sha-1";
+
+	private String algorithm = DEFAULT_ALGORITHM;
+	
+	/**
+	 * 
+	 */
+	public UniqueIdGenerator() {
+		super();
+	}
+
+	public UniqueIdGenerator(String algorithm) {
+		this.algorithm = algorithm;
+		try {
+			MessageDigest.getInstance(algorithm);
+		}catch(NoSuchAlgorithmException e) {
+			this.algorithm = DEFAULT_ALGORITHM;
+		}
+	}
 
 	public String generateRandomId() {
 		StringBuilder builder = new StringBuilder();
@@ -22,7 +42,7 @@ public class UniqueIdGenerator {
 		for (int i = 0; i < bounds; i++)
 			builder.append(Character.toString((char) ThreadLocalRandom.current().nextInt(32, 126 + 1)));
 
-		return this.hashText(builder.toString(), "sha-1");
+		return this.hashText(builder.toString(), this.algorithm);
 	}
 
 	private String hashText(String text, String hashAlgorithm) {

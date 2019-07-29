@@ -5,7 +5,6 @@ package org.agenda.security.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.agenda.security.utils.UniqueIdGenerator;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,19 +25,22 @@ public class TokenController {
 	private List<String> tokens = new ArrayList<>();
 
 	@GetMapping
-	public String getToken() {
-		String token = UniqueIdGenerator.generateRandomId(20, 20, Optional.empty());
+	public String getToken()
+	{
+		String token = UniqueIdGenerator.generateRandomId(20, 20);
 		tokens.add(token);
 		return token;
 	}
 
 	@PostMapping
-	public boolean isTokenValid(@RequestBody String token) {
+	public boolean isTokenValid(@RequestBody String token)
+	{
 		return tokens.contains(token);
 	}
 
 	@DeleteMapping
-	public void deleteToken(@RequestBody String token) {
+	public void deleteToken(@RequestBody String token)
+	{
 		tokens.remove(token);
 	}
 

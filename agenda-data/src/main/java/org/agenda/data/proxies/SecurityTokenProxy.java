@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient(name = "agenda-security")
 @RibbonClient(name = "agenda-security")
 @RequestMapping("/token/")
-public interface SecurityProxy {
+public interface SecurityTokenProxy {
 
 	@PostMapping
 	boolean isTokenValid(@RequestBody String token);

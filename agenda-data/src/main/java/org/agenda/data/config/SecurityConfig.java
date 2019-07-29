@@ -3,12 +3,15 @@
  */
 package org.agenda.data.config;
 
-import org.agenda.data.config.filters.TokenGateway;
+import java.util.Arrays;
+
+import org.agenda.data.config.filters.UserAuthChecker;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author LE MIERE Romain
@@ -19,9 +22,21 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception
+	{
 		http.httpBasic().and().csrf().disable().authorizeRequests().anyRequest().anonymous();
-		http.addFilterAt(new TokenGateway(), BasicAuthenticationFilter.class);
+	}
+
+	@Bean
+	public FilterRegistrationBean<UserAuthChecker> mUserAuthChecker()
+	{
+		FilterRegistrationBean<UserAuthChecker> filterReg = new FilterRegistrationBean<>();
+		UserAuthChecker checker = new UserAuthChecker();
+		filterReg.setFilter(checker);
+		filterReg.setUrlPatterns(Arrays.asList("/users/private/*"));
+		filterReg.setOrder(2);
+
+		return filterReg;
 	}
 
 }

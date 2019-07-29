@@ -13,7 +13,7 @@ import feign.auth.BasicAuthRequestInterceptor;
  *
  */
 @Configuration
-public class BeanConfiguration {
+public class FeignConfig {
 
 	@Bean
 	public BasicAuthRequestInterceptor mBasicAuthRequestInterceptor() {

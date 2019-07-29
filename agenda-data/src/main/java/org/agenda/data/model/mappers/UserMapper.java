@@ -5,8 +5,8 @@ package org.agenda.data.model.mappers;
 
 import java.util.List;
 
-import org.agenda.data.model.beans.DayBean;
-import org.agenda.data.model.beans.UserBean;
+import org.agenda.data.model.beans.data.DayBean;
+import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.model.User;
 
 /**

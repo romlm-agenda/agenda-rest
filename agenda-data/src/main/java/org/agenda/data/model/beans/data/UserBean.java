@@ -1,13 +1,14 @@
 /**
  * @since 17 juil. 2019
  */
-package org.agenda.data.model.beans;
+package org.agenda.data.model.beans.data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserBean {
 
 	private ObjectId id;
+	@Indexed(unique = true)
 	private String email;
 	private String password;
 	private String firstName;
@@ -32,8 +34,10 @@ public class UserBean {
 		super();
 	}
 
-	public UserBean(ObjectId id, String email, String password, String firstName, String lastName, LocalDate birthDate,
-			List<DayBean> days) {
+	public UserBean(
+	        ObjectId id, String email, String password, String firstName, String lastName, LocalDate birthDate,
+	        List<DayBean> days
+	) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -47,21 +51,24 @@ public class UserBean {
 	/**
 	 * @return the id
 	 */
-	public final String getId() {
+	public final String getId()
+	{
 		return id.toHexString();
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public final void setId(ObjectId id) {
+	public final void setId(ObjectId id)
+	{
 		this.id = id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public final void setId(String id) {
+	public final void setId(String id)
+	{
 		if (id != null && ObjectId.isValid(id))
 			this.id = new ObjectId(id);
 	}
@@ -69,84 +76,96 @@ public class UserBean {
 	/**
 	 * @return the email
 	 */
-	public final String getEmail() {
+	public final String getEmail()
+	{
 		return email;
 	}
 
 	/**
 	 * @param email the email to set
 	 */
-	public final void setEmail(String email) {
+	public final void setEmail(String email)
+	{
 		this.email = email;
 	}
 
 	/**
 	 * @return the password
 	 */
-	public final String getPassword() {
+	public final String getPassword()
+	{
 		return password;
 	}
 
 	/**
 	 * @param password the password to set
 	 */
-	public final void setPassword(String password) {
+	public final void setPassword(String password)
+	{
 		this.password = password;
 	}
 
 	/**
 	 * @return the firstName
 	 */
-	public final String getFirstName() {
+	public final String getFirstName()
+	{
 		return firstName;
 	}
 
 	/**
 	 * @param firstName the firstName to set
 	 */
-	public final void setFirstName(String firstName) {
+	public final void setFirstName(String firstName)
+	{
 		this.firstName = firstName;
 	}
 
 	/**
 	 * @return the lastName
 	 */
-	public final String getLastName() {
+	public final String getLastName()
+	{
 		return lastName;
 	}
 
 	/**
 	 * @param lastName the lastName to set
 	 */
-	public final void setLastName(String lastName) {
+	public final void setLastName(String lastName)
+	{
 		this.lastName = lastName;
 	}
 
 	/**
 	 * @return the birthDate
 	 */
-	public final LocalDate getBirthDate() {
+	public final LocalDate getBirthDate()
+	{
 		return birthDate;
 	}
 
 	/**
 	 * @param birthDate the birthDate to set
 	 */
-	public final void setBirthDate(LocalDate birthDate) {
+	public final void setBirthDate(LocalDate birthDate)
+	{
 		this.birthDate = birthDate;
 	}
 
 	/**
 	 * @return the days
 	 */
-	public final List<DayBean> getDays() {
+	public final List<DayBean> getDays()
+	{
 		return days;
 	}
 
 	/**
 	 * @param days the days to set
 	 */
-	public final void setDays(List<DayBean> days) {
+	public final void setDays(List<DayBean> days)
+	{
 		this.days = days;
 	}
 

@@ -3,11 +3,7 @@
  */
 package org.agenda.security.controllers;
 
-import java.util.Optional;
-
-import org.agenda.security.beans.UserIdentifierBean;
-import org.agenda.security.dao.UserIdentifiersDao;
-import org.agenda.security.utils.UniqueIdGenerator;
+import org.agenda.security.services.userIds.UserIdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,28 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserIdentifiersController {
 
 	@Autowired
-	private UserIdentifiersDao userIds;
+	private UserIdsService userIds;
 
 	@GetMapping
-	public String getInstance(@RequestParam String userId) {
-
-		String token = UniqueIdGenerator.generateRandomId(15, 15, Optional.of("md5"));
-		UserIdentifierBean bean = new UserIdentifierBean(userId, token);
-		userIds.save(bean);
-		return bean.getAuthKey();
-
+	public String getInstance(@RequestParam("userId") String userId)
+	{
+		return userIds.registerUser(userId);
 	}
 
 	@PostMapping
-	public boolean isUserValid(@RequestParam String userId, @RequestParam String token) {
-		Optional<UserIdentifierBean> bean = userIds.findByUserIdAndAuthKey(userId, token);
-
-		return bean.isPresent();
+	public boolean isUserValid(
+	    @RequestParam("userId") String userId,
+	    @RequestParam("userAuthKey") String authKey
+	)
+	{
+		return userIds.isUserValid(userId, authKey);
 	}
 
 	@DeleteMapping
-	public void deleteUser(@RequestParam String userId) {
-		userIds.deleteById(userId);
+	public void deleteUser(@RequestParam("userId") String userId)
+	{
+		userIds.deleteUser(userId);
 	}
 
 }

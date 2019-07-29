@@ -3,8 +3,8 @@
  */
 package org.agenda.data.services;
 
-import org.agenda.data.beans.UserBean;
 import org.agenda.data.dao.user.UserDao;
+import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

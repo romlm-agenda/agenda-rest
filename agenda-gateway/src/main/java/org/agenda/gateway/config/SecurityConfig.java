@@ -18,9 +18,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().csrf().disable().authorizeRequests().anyRequest().fullyAuthenticated().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	protected void configure(HttpSecurity http) throws Exception
+	{
+		http.httpBasic().and().formLogin().and().authorizeRequests().anyRequest().authenticated().and().csrf().disable()
+		        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 	}
 
 }

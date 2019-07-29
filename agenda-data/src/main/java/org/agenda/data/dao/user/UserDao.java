@@ -3,7 +3,7 @@
  */
 package org.agenda.data.dao.user;
 
-import org.agenda.data.model.beans.UserBean;
+import org.agenda.data.model.beans.data.UserBean;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

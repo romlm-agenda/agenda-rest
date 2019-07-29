@@ -7,47 +7,40 @@ import java.io.IOException;
 import java.util.Optional;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.agenda.data.proxies.SecurityProxy;
+import org.agenda.data.proxies.SecurityTokenProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * @author LE MIERE Romain
  *
  */
-public class TokenGateway extends HttpFilter {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8611232415010862729L;
+@Component
+@Order(1)
+public class TokenGateway extends OncePerRequestFilter {
 
 	@Autowired
-	private SecurityProxy security;
+	private SecurityTokenProxy securityTokenProxy;
 
 	@Override
-	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws IOException, ServletException, HttpClientErrorException {
-		if (security == null) {
-			ServletContext servletContext = request.getServletContext();
-			WebApplicationContext webApplicationContext = WebApplicationContextUtils
-					.getWebApplicationContext(servletContext);
-			security = webApplicationContext.getBean(SecurityProxy.class);
-		}
-
+	protected void doFilterInternal(
+	    HttpServletRequest request,
+	    HttpServletResponse response,
+	    FilterChain filterChain
+	) throws ServletException, IOException
+	{
 		Optional<String> header = Optional.ofNullable(request.getHeader("zuul-security-header"));
-		if (header.isEmpty() || !security.isTokenValid(header.get()))
+		if (header.isEmpty() || !securityTokenProxy.isTokenValid(header.get()))
 			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "Missing or invalid header");
-		chain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 
 	}
 

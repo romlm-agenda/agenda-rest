@@ -6,6 +6,7 @@ package org.agenda.data.dao.user;
 import java.util.Optional;
 
 import org.agenda.data.model.beans.data.UserBean;
+import org.agenda.model.Day;
 import org.agenda.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,16 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		ProjectionOperation project = Aggregation.project("id", "email", "firstName", "lastName", "birthDate");
 		Aggregation aggreg = Aggregation.newAggregation(match, project);
 		return mongo.aggregate(aggreg, UserBean.class, User.class);
+	}
+
+	@Override
+	public Day saveDay(
+	    String id,
+	    Day day
+	)
+	{
+		// TODO Implement the method
+		return null;
 	}
 
 }

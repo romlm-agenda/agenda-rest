@@ -5,6 +5,7 @@ package org.agenda.data.dao.user;
 
 import java.util.Optional;
 
+import org.agenda.model.Day;
 import org.agenda.model.User;
 
 /**
@@ -19,5 +20,10 @@ public interface UserDaoCustom {
 	);
 
 	Optional<User> getInfos(String id);
+
+	Day saveDay(
+	    String id,
+	    Day day
+	);
 
 }

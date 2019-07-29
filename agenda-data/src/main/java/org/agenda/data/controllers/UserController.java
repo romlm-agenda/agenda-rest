@@ -93,6 +93,19 @@ public class UserController {
 		return null;
 	}
 
+	@GetMapping("/private/info")
+	public ResponseEntity<User> getInfo(@RequestHeader("userId") String userId)
+	{
+		try {
+			User user = users.getInfos(userId);
+			return ResponseEntity.ok(user);
+		} catch (NullPointerException e) {
+			logger.error(String.format("user not found for id %s", userId), e);
+			return ResponseEntity.notFound().build();
+		}
+
+	}
+
 	@GetMapping("/private/day")
 	public ResponseEntity<Day> getDayByDate(
 	    @RequestHeader("userId") String userId,
@@ -121,7 +134,6 @@ public class UserController {
 		return null;
 	}
 
-
 	@GetMapping("/private/weeks")
 	public ResponseEntity<List<Week>> getWeeksByDate(
 	    @RequestHeader("userId") String userId,
@@ -140,8 +152,6 @@ public class UserController {
 	{
 		return null;
 	}
-
-	
 
 	@GetMapping("/private/months")
 	public ResponseEntity<List<Month>> getMonthsByDate(

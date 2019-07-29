@@ -3,6 +3,8 @@
  */
 package org.agenda.data.services;
 
+import java.util.Optional;
+
 import org.agenda.data.dao.user.UserDao;
 import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.data.model.mappers.UserMapper;
@@ -23,7 +25,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao users;
 
 	@Override
-	public User createUser(User user) throws DuplicateKeyException {
+	public User createUser(User user) throws DuplicateKeyException
+	{
 		user.setId(null);
 		UserBean userToAdd = UserMapper.mapUserToUserBean(user);
 		if ((userToAdd = users.save(userToAdd)) == null) {
@@ -33,8 +36,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(String email, String password) throws BadCredentialsException {
-		return users.loginUser(email, password);
+	public User loginUser(
+	    String email,
+	    String password
+	) throws BadCredentialsException
+	{
+		Optional<User> user = users.loginUser(email, password);
+		if (user.isEmpty())
+			throw new BadCredentialsException("bad credentials given, user not found");
+		return user.get();
+	}
+
+	@Override
+	public User getInfos(String id) throws NullPointerException
+	{
+		Optional<User> user = users.getInfos(id);
+		if (user.isEmpty())
+			throw new NullPointerException(String.format("user not found for id %s", id));
+		return user.get();
 	}
 
 }

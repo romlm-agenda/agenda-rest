@@ -3,8 +3,9 @@
  */
 package org.agenda.data.dao.user;
 
+import java.util.Optional;
+
 import org.agenda.model.User;
-import org.springframework.security.authentication.BadCredentialsException;
 
 /**
  * @author LE MIERE Romain
@@ -12,6 +13,11 @@ import org.springframework.security.authentication.BadCredentialsException;
  */
 public interface UserDaoCustom {
 
-	User loginUser(String email, String password) throws BadCredentialsException;
+	Optional<User> loginUser(
+	    String email,
+	    String password
+	);
+
+	Optional<User> getInfos(String id);
 
 }

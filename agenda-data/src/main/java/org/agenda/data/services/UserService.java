@@ -17,6 +17,11 @@ public interface UserService {
 
 	User createUser(User user) throws DuplicateKeyException;
 
-	User loginUser(String email, String password) throws BadCredentialsException;
+	User loginUser(
+	    String email,
+	    String password
+	) throws BadCredentialsException;
+
+	User getInfos(String id) throws NullPointerException;
 
 }

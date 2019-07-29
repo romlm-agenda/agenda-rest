@@ -35,9 +35,7 @@ public class DayBean {
 	 * @param date
 	 * @param occupations
 	 * @param events
-	 * @param monthId
 	 * @param weekId
-	 * @param yearId
 	 */
 	public DayBean(LocalDate date, List<Occupation> occupations, List<Event> events, int weekId) {
 		super();

@@ -3,7 +3,10 @@
  */
 package org.agenda.data.model.codecs;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +92,6 @@ public class DayBeanCodec implements Codec<DayBean> {
 	@Override
 	public Class<DayBean> getEncoderClass()
 	{
-		// TODO Implement the method
 		return DayBean.class;
 	}
 
@@ -100,6 +102,7 @@ public class DayBeanCodec implements Codec<DayBean> {
 	)
 	{
 		DayBean day = new DayBean();
+		day.setDate(LocalDate.ofInstant(Instant.ofEpochMilli(reader.readDateTime("date")), ZoneId.systemDefault()));
 		return day;
 	}
 

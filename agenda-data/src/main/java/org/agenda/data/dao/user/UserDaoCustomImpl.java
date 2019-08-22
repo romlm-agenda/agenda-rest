@@ -3,6 +3,10 @@
  */
 package org.agenda.data.dao.user;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.agenda.data.model.beans.AddFieldsOperation;
@@ -12,9 +16,9 @@ import org.agenda.model.Day;
 import org.agenda.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
@@ -59,6 +63,8 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		Aggregation aggreg = Aggregation.newAggregation(match, project);
 		return mongo.aggregate(aggreg, UserBean.class, User.class);
 	}
+	
+	// CRUD operations
 
 	@Override
 	public DayBean saveDay(
@@ -66,19 +72,52 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	    DayBean day
 	)
 	{
-		MatchOperation matchUser = Aggregation.match(Criteria.where("id").is(userId));
 		ProjectionOperation project = Aggregation.project("days");
 		UnwindOperation unwind = Aggregation.unwind("days");
 		MatchOperation matchDate = Aggregation.match(Criteria.where("days.date").is(day.getDate()));
 		ProjectionOperation removeWeek = Aggregation.project("days.date", "days.occupations", "days.events");
 		AddFieldsOperation update = new AddFieldsOperation("days", day);
 
-		Aggregation aggreg = Aggregation.newAggregation(matchUser, project, unwind, matchDate, removeWeek, update);
+		Aggregation aggreg = prepareAggregation(userId, project, unwind, matchDate, removeWeek, update);
 		AggregationResults<Day> results = mongo.aggregate(aggreg, UserBean.class, Day.class);
-
 		System.out.println(results.getUniqueMappedResult());
 
 		return day;
+	}
+	
+	
+
+
+	@Override
+	public Optional<DayBean> getDay(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public List<DayBean> getDays(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+	private Aggregation prepareAggregation(
+		String userId,
+		AggregationOperation... operations
+			)
+	{
+		MatchOperation matchUser = Aggregation.match(Criteria.where("id").is(userId));
+		List<AggregationOperation> list = new ArrayList<>();
+		list.add(matchUser);
+		list.addAll(Arrays.asList(operations));
+		return Aggregation.newAggregation(list);
 	}
 
 }

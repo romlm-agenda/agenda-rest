@@ -3,6 +3,8 @@
  */
 package org.agenda.data.dao.user;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.agenda.data.model.beans.data.DayBean;
@@ -24,6 +26,17 @@ public interface UserDaoCustom {
 	DayBean saveDay(
 	    String userId,
 	    DayBean day
+	);
+
+	Optional<DayBean> getDay(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<DayBean> getDays(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
 	);
 
 }

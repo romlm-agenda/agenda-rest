@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.agenda.model.Day;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,7 +26,7 @@ public class UserBean {
 	private String firstName;
 	private String lastName;
 	private LocalDate birthDate;
-	private List<DayBean> days = new ArrayList<>();
+	private List<Day> days = new ArrayList<>();
 
 	/**
 	 * 
@@ -36,7 +37,7 @@ public class UserBean {
 
 	public UserBean(
 	        ObjectId id, String email, String password, String firstName, String lastName, LocalDate birthDate,
-	        List<DayBean> days
+	        List<Day> days
 	) {
 		super();
 		this.id = id;
@@ -156,7 +157,7 @@ public class UserBean {
 	/**
 	 * @return the days
 	 */
-	public final List<DayBean> getDays()
+	public final List<Day> getDays()
 	{
 		return days;
 	}
@@ -164,7 +165,7 @@ public class UserBean {
 	/**
 	 * @param days the days to set
 	 */
-	public final void setDays(List<DayBean> days)
+	public final void setDays(List<Day> days)
 	{
 		this.days = days;
 	}

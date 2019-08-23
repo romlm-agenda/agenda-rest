@@ -3,7 +3,7 @@
  */
 package org.agenda.data.config;
 
-import org.agenda.data.model.codecs.DayBeanCodec;
+import org.agenda.data.model.codecs.DayCodec;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class BeanConfig {
 	public MongoClientOptions mMongoClientOptions()
 	{
 		final CodecRegistry registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
-		        CodecRegistries.fromCodecs(new DayBeanCodec()));
+		        CodecRegistries.fromCodecs(new DayCodec()));
 		return MongoClientOptions.builder().codecRegistry(registry).build();
 	}
 

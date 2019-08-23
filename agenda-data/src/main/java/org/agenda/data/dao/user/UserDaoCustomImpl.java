@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.agenda.data.model.beans.AddFieldsOperation;
-import org.agenda.data.model.beans.data.DayBean;
 import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.model.Day;
 import org.agenda.model.User;
@@ -67,9 +66,9 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	// CRUD operations
 
 	@Override
-	public DayBean saveDay(
+	public Day saveDay(
 	    String userId,
-	    DayBean day
+	    Day day
 	)
 	{
 		ProjectionOperation project = Aggregation.project("days");
@@ -89,7 +88,7 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 
 
 	@Override
-	public Optional<DayBean> getDay(
+	public Optional<Day> getDay(
 	    String userId,
 	    LocalDate date
 	)
@@ -99,7 +98,7 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	}
 
 	@Override
-	public List<DayBean> getDays(
+	public List<Day> getDays(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

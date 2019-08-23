@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 
-import org.agenda.data.model.beans.data.DayBean;
-import org.agenda.data.model.codecs.DayBeanCodec;
+import org.agenda.data.model.codecs.DayCodec;
+import org.agenda.model.Day;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.junit.After;
@@ -40,7 +40,7 @@ public class UserDaoCustomImplTest {
 		public MongoClientOptions mongoClientOptions()
 		{
 			final CodecRegistry registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
-			        CodecRegistries.fromCodecs(new DayBeanCodec()));
+			        CodecRegistries.fromCodecs(new DayCodec()));
 			return MongoClientOptions.builder().codecRegistry(registry).build();
 
 		}
@@ -108,7 +108,7 @@ public class UserDaoCustomImplTest {
 	@Test
 	public final void testSaveDay()
 	{
-		DayBean day = new DayBean();
+		Day day = new Day();
 		String id = "5d3aeb30cb3e9d2f6c30c081";
 		day.setDate(LocalDate.parse("2019-06-06"));
 		dao.saveDay(id, day);

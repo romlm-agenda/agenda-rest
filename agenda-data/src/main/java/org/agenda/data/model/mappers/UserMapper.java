@@ -5,8 +5,8 @@ package org.agenda.data.model.mappers;
 
 import java.util.List;
 
-import org.agenda.data.model.beans.data.DayBean;
 import org.agenda.data.model.beans.data.UserBean;
+import org.agenda.model.Day;
 import org.agenda.model.User;
 
 /**
@@ -18,35 +18,41 @@ public class UserMapper {
 	private UserMapper() {
 	}
 
-	public static User mapUserBeanToUser(UserBean pUser) {
-		User user = new User();
-		user.setId(pUser.getId());
-		user.setFirstName(pUser.getFirstName());
-		user.setLastName(pUser.getLastName());
-		user.setEmail(pUser.getEmail());
-		user.setPassword(pUser.getPassword());
-		user.setBirthDate(pUser.getBirthDate());
+	public static User mapUserBeanToUser(UserBean user)
+	{
+		User vUser = new User();
+		vUser.setId(user.getId());
+		vUser.setFirstName(user.getFirstName());
+		vUser.setLastName(user.getLastName());
+		vUser.setEmail(user.getEmail());
+		vUser.setPassword(user.getPassword());
+		vUser.setBirthDate(user.getBirthDate());
 
-		return user;
-
-	}
-
-	public static UserBean mapUserToUserBean(User pUser) {
-		UserBean user = new UserBean();
-		user.setId(pUser.getId());
-		user.setFirstName(pUser.getFirstName());
-		user.setLastName(pUser.getLastName());
-		user.setEmail(pUser.getEmail());
-		user.setPassword(pUser.getPassword());
-		user.setBirthDate(pUser.getBirthDate());
-		return user;
+		return vUser;
 
 	}
 
-	public static UserBean mapUserToUserBean(User pUser, List<DayBean> pDays) {
-		UserBean user = mapUserToUserBean(pUser);
-		user.setDays(pDays);
-		return user;
+	public static UserBean mapUserToUserBean(User user)
+	{
+		UserBean vUser = new UserBean();
+		vUser.setId(user.getId());
+		vUser.setFirstName(user.getFirstName());
+		vUser.setLastName(user.getLastName());
+		vUser.setEmail(user.getEmail());
+		vUser.setPassword(user.getPassword());
+		vUser.setBirthDate(user.getBirthDate());
+		return vUser;
+
+	}
+
+	public static UserBean mapUserToUserBean(
+	    User user,
+	    List<Day> days
+	)
+	{
+		UserBean vUser = mapUserToUserBean(user);
+		vUser.setDays(days);
+		return vUser;
 	}
 
 }

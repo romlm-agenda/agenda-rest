@@ -11,7 +11,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.agenda.data.model.beans.data.DayBean;
+import org.agenda.model.Day;
 import org.agenda.model.Event;
 import org.agenda.model.Occupation;
 import org.bson.BsonArray;
@@ -30,12 +30,12 @@ import org.bson.codecs.EncoderContext;
  * @author LE MIERE Romain
  *
  */
-public class DayBeanCodec implements Codec<DayBean> {
+public class DayCodec implements Codec<Day> {
 
 	@Override
 	public void encode(
 	    BsonWriter writer,
-	    DayBean day,
+	    Day day,
 	    EncoderContext encoderContext
 	)
 	{
@@ -90,18 +90,18 @@ public class DayBeanCodec implements Codec<DayBean> {
 	}
 
 	@Override
-	public Class<DayBean> getEncoderClass()
+	public Class<Day> getEncoderClass()
 	{
-		return DayBean.class;
+		return Day.class;
 	}
 
 	@Override
-	public DayBean decode(
+	public Day decode(
 	    BsonReader reader,
 	    DecoderContext decoderContext
 	)
 	{
-		DayBean day = new DayBean();
+		Day day = new Day();
 		day.setDate(LocalDate.ofInstant(Instant.ofEpochMilli(reader.readDateTime("date")), ZoneId.systemDefault()));
 		return day;
 	}

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.agenda.data.model.beans.data.DayBean;
+import org.agenda.model.Day;
 import org.agenda.model.User;
 
 /**
@@ -23,17 +23,17 @@ public interface UserDaoCustom {
 
 	Optional<User> getInfos(String id);
 
-	DayBean saveDay(
+	Day saveDay(
 	    String userId,
-	    DayBean day
+	    Day day
 	);
 
-	Optional<DayBean> getDay(
+	Optional<Day> getDay(
 	    String userId,
 	    LocalDate date
 	);
 
-	List<DayBean> getDays(
+	List<Day> getDays(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

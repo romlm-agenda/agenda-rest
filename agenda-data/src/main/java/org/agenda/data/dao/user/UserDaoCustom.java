@@ -39,4 +39,15 @@ public interface UserDaoCustom {
 	    LocalDate to
 	);
 
+	Optional<Day> deleteDay(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<Day> deleteDays(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	);
+
 }

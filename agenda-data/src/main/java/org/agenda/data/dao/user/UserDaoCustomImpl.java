@@ -23,6 +23,7 @@ import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -62,7 +63,7 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		Aggregation aggreg = Aggregation.newAggregation(match, project);
 		return mongo.aggregate(aggreg, UserBean.class, User.class);
 	}
-	
+
 	// CRUD operations
 
 	@Override
@@ -71,21 +72,18 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	    Day day
 	)
 	{
+
 		ProjectionOperation project = Aggregation.project("days");
 		UnwindOperation unwind = Aggregation.unwind("days");
 		MatchOperation matchDate = Aggregation.match(Criteria.where("days.date").is(day.getDate()));
-		ProjectionOperation removeWeek = Aggregation.project("days.date", "days.occupations", "days.events");
 		AddFieldsOperation update = new AddFieldsOperation("days", day);
 
-		Aggregation aggreg = prepareAggregation(userId, project, unwind, matchDate, removeWeek, update);
+		Aggregation aggreg = prepareAggregation(userId, project, unwind, matchDate, update);
 		AggregationResults<Day> results = mongo.aggregate(aggreg, UserBean.class, Day.class);
 		System.out.println(results.getUniqueMappedResult());
 
 		return day;
 	}
-	
-	
-
 
 	@Override
 	public Optional<Day> getDay(
@@ -93,8 +91,13 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	    LocalDate date
 	)
 	{
-		// TODO Implement the method
-		return null;
+		ProjectionOperation project = Aggregation.project("days");
+		UnwindOperation unwind = Aggregation.unwind("days");
+		MatchOperation match = Aggregation.match(Criteria.where("days.date").is(date));
+		Aggregation aggregation = prepareAggregation(userId, project, unwind, match);
+
+		AggregationResults<Day> results = mongo.aggregate(aggregation, UserBean.class, Day.class);
+		return Optional.ofNullable(results.getUniqueMappedResult());
 	}
 
 	@Override
@@ -104,13 +107,41 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	    LocalDate to
 	)
 	{
+		ProjectionOperation project = Aggregation.project("days");
+		UnwindOperation unwind = Aggregation.unwind("days");
+		MatchOperation match = Aggregation.match(Criteria.where("days.date").gte(from).and("days.date").lte(to));
+
+		Aggregation aggregation = prepareAggregation(userId, project, unwind, match);
+		AggregationResults<Day> results = mongo.aggregate(aggregation, UserBean.class, Day.class);
+
+		return results.getMappedResults();
+	}
+
+	@Override
+	public Optional<Day> deleteDay(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		Query query = new Query();
+		return null;
+	}
+
+	@Override
+	public List<Day> deleteDays(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	)
+	{
 		// TODO Implement the method
 		return null;
 	}
+
 	private Aggregation prepareAggregation(
-		String userId,
-		AggregationOperation... operations
-			)
+	    String userId,
+	    AggregationOperation... operations
+	)
 	{
 		MatchOperation matchUser = Aggregation.match(Criteria.where("id").is(userId));
 		List<AggregationOperation> list = new ArrayList<>();

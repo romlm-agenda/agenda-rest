@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.model.Day;
 import org.agenda.model.User;
 
@@ -26,7 +27,7 @@ public interface UserDaoCustom {
 	Day saveDay(
 	    String userId,
 	    Day day
-	);
+	) throws UserNotFoundException;
 
 	Optional<Day> getDay(
 	    String userId,
@@ -39,12 +40,12 @@ public interface UserDaoCustom {
 	    LocalDate to
 	);
 
-	Optional<Day> deleteDay(
+	Long deleteDay(
 	    String userId,
 	    LocalDate date
 	);
 
-	List<Day> deleteDays(
+	Long deleteDays(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.agenda.data.model.beans.AddFieldsOperation;
 import org.agenda.data.model.beans.data.UserBean;
+import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.model.Day;
 import org.agenda.model.User;
 import org.bson.types.ObjectId;
@@ -24,7 +24,11 @@ import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
+
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 /**
  * @author LE MIERE Romain
@@ -67,25 +71,6 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	// CRUD operations
 
 	@Override
-	public Day saveDay(
-	    String userId,
-	    Day day
-	)
-	{
-
-		ProjectionOperation project = Aggregation.project("days");
-		UnwindOperation unwind = Aggregation.unwind("days");
-		MatchOperation matchDate = Aggregation.match(Criteria.where("days.date").is(day.getDate()));
-		AddFieldsOperation update = new AddFieldsOperation("days", day);
-
-		Aggregation aggreg = prepareAggregation(userId, project, unwind, matchDate, update);
-		AggregationResults<Day> results = mongo.aggregate(aggreg, UserBean.class, Day.class);
-		System.out.println(results.getUniqueMappedResult());
-
-		return day;
-	}
-
-	@Override
 	public Optional<Day> getDay(
 	    String userId,
 	    LocalDate date
@@ -109,7 +94,7 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	{
 		ProjectionOperation project = Aggregation.project("days");
 		UnwindOperation unwind = Aggregation.unwind("days");
-		MatchOperation match = Aggregation.match(Criteria.where("days.date").gte(from).and("days.date").lte(to));
+		MatchOperation match = Aggregation.match(Criteria.where("days.date").gte(from).lte(to));
 
 		Aggregation aggregation = prepareAggregation(userId, project, unwind, match);
 		AggregationResults<Day> results = mongo.aggregate(aggregation, UserBean.class, Day.class);
@@ -118,24 +103,50 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	}
 
 	@Override
-	public Optional<Day> deleteDay(
+	public Long deleteDay(
 	    String userId,
 	    LocalDate date
 	)
 	{
-		Query query = new Query();
-		return null;
+		Query query = new Query(Criteria.where("id").is(userId).and("days.date").is(date));
+		DeleteResult results = mongo.remove(query, UserBean.class);
+
+		return results.getDeletedCount();
 	}
 
 	@Override
-	public List<Day> deleteDays(
+	public Long deleteDays(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		Query query = new Query(Criteria.where("id").is(userId).and("days.date").gte(from).lte(to));
+		DeleteResult results = mongo.remove(query, UserBean.class);
+		return results.getDeletedCount();
+	}
+
+	@Override
+	public Day saveDay(
+	    String userId,
+	    Day day
+	)
+	{
+		Query query = new Query(Criteria.where("id").is(userId).and("days.date").is(day.getDate()));
+		Update update = new Update();
+		update.set("days.0", day);
+
+		UpdateResult results = mongo.updateFirst(query, update, UserBean.class);
+		if (results.getModifiedCount() == 0) {
+			query = new Query(Criteria.where("id").is(userId));
+			update = new Update();
+			update.push("days", day);
+
+			results = mongo.updateFirst(query, update, UserBean.class);
+			if (results.getModifiedCount() == 0)
+				throw new UserNotFoundException("the user corresponding to the given id doesn't exist");
+		}
+		return day;
 	}
 
 	private Aggregation prepareAggregation(
@@ -149,5 +160,4 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		list.addAll(Arrays.asList(operations));
 		return Aggregation.newAggregation(list);
 	}
-
 }

@@ -60,9 +60,9 @@ public class Event {
 	@Override
 	public String toString()
 	{
-		String s = "DisplayInfos={";
+		String s = "Day={";
 		for (Field f : this.getClass().getDeclaredFields()) {
-			Object o = new String();
+			Object o = null;
 			try {
 				o = f.get(this);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -71,7 +71,7 @@ public class Event {
 			s += "\n\t"
 			        + f.getName()
 			        + ": "
-			        + o.toString()
+			        + (o != null ? o.toString() : null)
 			        + ",";
 		}
 		return s

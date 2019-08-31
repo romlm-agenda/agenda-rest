@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.time.LocalTime;
 
 /**
@@ -20,8 +21,9 @@ public class Occupation {
 		super();
 	}
 
-	public Occupation(OccupationType occupationType, LocalTime beginingTime, LocalTime endingTime,
-			DisplayInfos displayInfos) {
+	public Occupation(
+	        OccupationType occupationType, LocalTime beginingTime, LocalTime endingTime, DisplayInfos displayInfos
+	) {
 		super();
 		this.occupationType = occupationType;
 		this.beginingTime = beginingTime;
@@ -32,57 +34,86 @@ public class Occupation {
 	/**
 	 * @return the occupationType
 	 */
-	public final OccupationType getOccupationType() {
+	public final OccupationType getOccupationType()
+	{
 		return occupationType;
 	}
 
 	/**
 	 * @param occupationType the occupationType to set
 	 */
-	public final void setOccupationType(OccupationType occupationType) {
+	public final void setOccupationType(OccupationType occupationType)
+	{
 		this.occupationType = occupationType;
 	}
 
 	/**
 	 * @return the beginingTime
 	 */
-	public final LocalTime getBeginingTime() {
+	public final LocalTime getBeginingTime()
+	{
 		return beginingTime;
 	}
 
 	/**
 	 * @param beginingTime the beginingTime to set
 	 */
-	public final void setBeginingTime(LocalTime beginingTime) {
+	public final void setBeginingTime(LocalTime beginingTime)
+	{
 		this.beginingTime = beginingTime;
 	}
 
 	/**
 	 * @return the endingTime
 	 */
-	public final LocalTime getEndingTime() {
+	public final LocalTime getEndingTime()
+	{
 		return endingTime;
 	}
 
 	/**
 	 * @param endingTime the endingTime to set
 	 */
-	public final void setEndingTime(LocalTime endingTime) {
+	public final void setEndingTime(LocalTime endingTime)
+	{
 		this.endingTime = endingTime;
 	}
 
 	/**
 	 * @return the displayInfos
 	 */
-	public final DisplayInfos getDisplayInfos() {
+	public final DisplayInfos getDisplayInfos()
+	{
 		return displayInfos;
 	}
 
 	/**
 	 * @param displayInfos the displayInfos to set
 	 */
-	public final void setDisplayInfos(DisplayInfos displayInfos) {
+	public final void setDisplayInfos(DisplayInfos displayInfos)
+	{
 		this.displayInfos = displayInfos;
+	}
+
+	@Override
+	public String toString()
+	{
+		String s = "Occupation={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"
+			        + f.getName()
+			        + ": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,43 +32,70 @@ public class Year {
 	/**
 	 * @return the yearId
 	 */
-	public final int getYearId() {
+	public final int getYearId()
+	{
 		return yearId;
 	}
 
 	/**
 	 * @param yearId the yearId to set
 	 */
-	public final void setYearId(int yearId) {
+	public final void setYearId(int yearId)
+	{
 		this.yearId = yearId;
 	}
 
 	/**
 	 * @return the months
 	 */
-	public final List<Month> getMonths() {
+	public final List<Month> getMonths()
+	{
 		return months;
 	}
 
 	/**
 	 * @param months the months to set
 	 */
-	public final void setMonths(List<Month> months) {
+	public final void setMonths(List<Month> months)
+	{
 		this.months = months;
 	}
 
 	/**
 	 * @return the weeks
 	 */
-	public final List<Week> getWeeks() {
+	public final List<Week> getWeeks()
+	{
 		return weeks;
 	}
 
 	/**
 	 * @param weeks the weeks to set
 	 */
-	public final void setWeeks(List<Week> weeks) {
+	public final void setWeeks(List<Week> weeks)
+	{
 		this.weeks = weeks;
+	}
+
+	@Override
+	public String toString()
+	{
+		String s = "DisplayInfos={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"
+			        + f.getName()
+			        + ": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

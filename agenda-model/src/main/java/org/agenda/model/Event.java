@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.time.LocalTime;
 
 /**
@@ -27,29 +28,54 @@ public class Event {
 	/**
 	 * @return the eventType
 	 */
-	public final OccupationType getEventType() {
+	public final OccupationType getEventType()
+	{
 		return eventType;
 	}
 
 	/**
 	 * @param eventType the eventType to set
 	 */
-	public final void setEventType(OccupationType eventType) {
+	public final void setEventType(OccupationType eventType)
+	{
 		this.eventType = eventType;
 	}
 
 	/**
 	 * @return the eventTime
 	 */
-	public final LocalTime getEventTime() {
+	public final LocalTime getEventTime()
+	{
 		return eventTime;
 	}
 
 	/**
 	 * @param eventTime the eventTime to set
 	 */
-	public final void setEventTime(LocalTime eventTime) {
+	public final void setEventTime(LocalTime eventTime)
+	{
 		this.eventTime = eventTime;
+	}
+
+	@Override
+	public String toString()
+	{
+		String s = "DisplayInfos={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"
+			        + f.getName()
+			        + ": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

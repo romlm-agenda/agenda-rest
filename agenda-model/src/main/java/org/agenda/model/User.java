@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 /**
@@ -35,85 +36,118 @@ public class User {
 	/**
 	 * @return the id
 	 */
-	public final String getId() {
+	public final String getId()
+	{
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public final void setId(String id) {
+	public final void setId(String id)
+	{
 		this.id = id;
 	}
 
 	/**
 	 * @return the email
 	 */
-	public final String getEmail() {
+	public final String getEmail()
+	{
 		return email;
 	}
 
 	/**
 	 * @param email the email to set
 	 */
-	public final void setEmail(String email) {
+	public final void setEmail(String email)
+	{
 		this.email = email;
 	}
 
 	/**
 	 * @return the password
 	 */
-	public final String getPassword() {
+	public final String getPassword()
+	{
 		return password;
 	}
 
 	/**
 	 * @param password the password to set
 	 */
-	public final void setPassword(String password) {
+	public final void setPassword(String password)
+	{
 		this.password = password;
 	}
 
 	/**
 	 * @return the firstName
 	 */
-	public final String getFirstName() {
+	public final String getFirstName()
+	{
 		return firstName;
 	}
 
 	/**
 	 * @param firstName the firstName to set
 	 */
-	public final void setFirstName(String firstName) {
+	public final void setFirstName(String firstName)
+	{
 		this.firstName = firstName;
 	}
 
 	/**
 	 * @return the lastName
 	 */
-	public final String getLastName() {
+	public final String getLastName()
+	{
 		return lastName;
 	}
 
 	/**
 	 * @param lastName the lastName to set
 	 */
-	public final void setLastName(String lastName) {
+	public final void setLastName(String lastName)
+	{
 		this.lastName = lastName;
 	}
 
 	/**
 	 * @return the birthDate
 	 */
-	public final LocalDate getBirthDate() {
+	public final LocalDate getBirthDate()
+	{
 		return birthDate;
 	}
 
 	/**
 	 * @param birthDate the birthDate to set
 	 */
-	public final void setBirthDate(LocalDate birthDate) {
+	public final void setBirthDate(LocalDate birthDate)
+	{
 		this.birthDate = birthDate;
+	}
+
+	@Override
+	public String toString()
+	{
+		String s = "User={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"
+			        + f.getName()
+			        + ": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

@@ -3,6 +3,8 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
+
 /**
  * @author LE MIERE Romain
  *
@@ -60,14 +62,20 @@ public class OccupationType {
 	@Override
 	public String toString()
 	{
-		String s = "{";
-		s += "\n\ttype: "
-		        + type;
-		s += "\n\tdetails: "
-		        + details
+		String s = "DisplayInfos={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"+f.getName()+": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
 		        + "\n}";
-
-		return s;
 	}
 
 }

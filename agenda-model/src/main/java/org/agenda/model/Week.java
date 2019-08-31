@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,25 @@ public class Week {
 	 */
 	public final void setDays(List<Day> days) {
 		this.days = days;
+	}
+	
+	@Override
+	public String toString()
+	{
+		String s = "DisplayInfos={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = new String();
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"+f.getName()+": "
+			        + o.toString()
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

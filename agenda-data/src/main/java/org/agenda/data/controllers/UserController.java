@@ -49,7 +49,7 @@ public class UserController {
 
 	// public endpoints
 
-	@PostMapping("/public/login")
+	@GetMapping("/public/login")
 	public ResponseEntity<User> loginUser(
 	    @RequestParam String email,
 	    @RequestParam String password,

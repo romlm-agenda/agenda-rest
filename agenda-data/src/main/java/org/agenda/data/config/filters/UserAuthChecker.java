@@ -4,7 +4,6 @@
 package org.agenda.data.config.filters;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.FilterChain;
@@ -45,8 +44,7 @@ public class UserAuthChecker extends OncePerRequestFilter {
 		if (request.getCookies() == null)
 			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
 		Optional<String> userIdParam = Optional.ofNullable(request.getHeader("userId"));
-		Optional<String> userKeyCookie = Arrays.asList(request.getCookies()).stream()
-		        .filter(cookie -> cookie.getName().equals("userAuthKey")).map(cookie -> cookie.getValue()).findFirst();
+		Optional<String> userKeyCookie = Optional.ofNullable(request.getHeader("userAuthKey"));
 
 		if (userIdParam.isEmpty() || userKeyCookie.isEmpty())
 			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "missing credentials");

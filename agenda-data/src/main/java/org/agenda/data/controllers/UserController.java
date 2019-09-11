@@ -6,11 +6,10 @@ package org.agenda.data.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.agenda.data.proxies.SecurityUserIdProxy;
-import org.agenda.data.services.UserService;
+import org.agenda.data.services.user.UserService;
 import org.agenda.model.Day;
 import org.agenda.model.Month;
 import org.agenda.model.User;
@@ -65,7 +64,7 @@ public class UserController {
 		}
 
 		String userAuthKey = securityUser.getInstance(user.getId());
-		response.addCookie(new Cookie("userAuthKey", userAuthKey));
+		response.addHeader("userAuthKey", userAuthKey);
 		return ResponseEntity.ok(user);
 
 	}
@@ -85,10 +84,7 @@ public class UserController {
 	// private endpoints
 
 	@DeleteMapping("/private/delete")
-	public ResponseEntity<Void> delete(
-	    @RequestHeader("userId") String userId,
-	    @RequestBody User user
-	)
+	public ResponseEntity<Void> delete(@RequestHeader("userId") String userId)
 	{
 		return null;
 	}

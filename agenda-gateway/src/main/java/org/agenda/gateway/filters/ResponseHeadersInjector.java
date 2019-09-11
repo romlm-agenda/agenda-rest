@@ -5,6 +5,8 @@ package org.agenda.gateway.filters;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
+
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
@@ -13,6 +15,7 @@ import com.netflix.zuul.exception.ZuulException;
  * @author LE MIERE Romain
  *
  */
+@Component
 public class ResponseHeadersInjector extends ZuulFilter {
 
 	@Override
@@ -28,7 +31,7 @@ public class ResponseHeadersInjector extends ZuulFilter {
 		HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.addHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+        response.addHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE");
 		response.addHeader("Access-Control-Expose-Headers", "userAuthKey");
 		return null;
 	}

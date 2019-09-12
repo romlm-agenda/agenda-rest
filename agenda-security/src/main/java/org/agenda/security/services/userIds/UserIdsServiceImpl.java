@@ -6,7 +6,7 @@ package org.agenda.security.services.userIds;
 import java.util.Optional;
 
 import org.agenda.security.beans.UserIdentifierBean;
-import org.agenda.security.dao.UserIdentifiersDao;
+import org.agenda.security.dao.userIds.UserIdentifiersDao;
 import org.agenda.security.utils.UniqueIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

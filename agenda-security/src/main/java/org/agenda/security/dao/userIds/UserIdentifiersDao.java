@@ -1,7 +1,7 @@
 /**
  * @since 24 juil. 2019
  */
-package org.agenda.security.dao;
+package org.agenda.security.dao.userIds;
 
 import java.util.Optional;
 

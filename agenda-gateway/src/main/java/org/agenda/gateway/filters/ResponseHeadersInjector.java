@@ -5,6 +5,8 @@ package org.agenda.gateway.filters;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
@@ -17,6 +19,8 @@ import com.netflix.zuul.exception.ZuulException;
  */
 @Component
 public class ResponseHeadersInjector extends ZuulFilter {
+	
+	private static Logger logger = LoggerFactory.getLogger(ResponseHeadersInjector.class);
 
 	@Override
 	public boolean shouldFilter()
@@ -33,6 +37,10 @@ public class ResponseHeadersInjector extends ZuulFilter {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         response.addHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE");
 		response.addHeader("Access-Control-Expose-Headers", "userAuthKey");
+		
+		logger.info("Succesfully injected Access-Control headers in response for request "
+		        + RequestContext.getCurrentContext().getRequest().getRequestURL().toString());
+		
 		return null;
 	}
 

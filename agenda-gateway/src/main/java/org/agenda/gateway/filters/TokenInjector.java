@@ -4,6 +4,8 @@
 package org.agenda.gateway.filters;
 
 import org.agenda.gateway.proxies.SecurityProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ import com.netflix.zuul.exception.ZuulException;
  */
 @Component
 public class TokenInjector extends ZuulFilter {
+	
+	private static Logger logger = LoggerFactory.getLogger(TokenInjector.class);
 
 	@Autowired
 	private SecurityProxy security;
@@ -29,6 +33,9 @@ public class TokenInjector extends ZuulFilter {
 	@Override
 	public Object run() throws ZuulException {
 		RequestContext.getCurrentContext().addZuulRequestHeader("zuul-security-header", security.getToken());
+		
+		logger.info("Succesfully injected security header in request "
+		        + RequestContext.getCurrentContext().getRequest().getRequestURL().toString());
 		return null;
 	}
 

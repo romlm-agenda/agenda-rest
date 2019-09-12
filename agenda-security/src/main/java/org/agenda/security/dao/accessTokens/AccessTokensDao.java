@@ -11,7 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  */
 public interface AccessTokensDao extends JpaRepository<AccessTokenBean, Long> {
-	
+
 	boolean existsAccessTokenBeanByAccessToken(String accessToken);
+
+	void deleteByAccessToken(String accessToken);
 
 }

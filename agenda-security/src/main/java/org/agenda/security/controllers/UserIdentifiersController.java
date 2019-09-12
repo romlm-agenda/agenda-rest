@@ -26,7 +26,7 @@ public class UserIdentifiersController {
 	@GetMapping
 	public String getInstance(@RequestParam("userId") String userId)
 	{
-		return userIds.registerUser(userId);
+		return userIds.getTokenForUser(userId);
 	}
 
 	@PostMapping

@@ -22,7 +22,7 @@ public class UserIdsServiceImpl implements UserIdsService {
 	private UserIdentifiersDao userIds;
 
 	@Override
-	public String registerUser(String userId)
+	public String getTokenForUser(String userId)
 	{
 		Optional<UserIdentifierBean> userIdentifier = userIds.findById(userId);
 		if (userIdentifier.isPresent())
@@ -38,14 +38,13 @@ public class UserIdsServiceImpl implements UserIdsService {
 	    String authKey
 	)
 	{
-		return userIds.findByUserIdAndAuthKey(userId, authKey).isPresent();
+		return userIds.existsUserIdentifierBeanByUserIdAndAuthKey(userId, authKey);
 	}
 
 	@Override
 	public void deleteUser(String userId)
 	{
 		userIds.deleteById(userId);
-
 	}
 
 }

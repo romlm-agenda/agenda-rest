@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserIdsService {
 
-	String registerUser(String userId);
+	String getTokenForUser(String userId);
 
 	boolean isUserValid(
 	    String userId,

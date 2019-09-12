@@ -3,8 +3,6 @@
  */
 package org.agenda.security.dao.userIds;
 
-import java.util.Optional;
-
 import org.agenda.security.beans.UserIdentifierBean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserIdentifiersDao extends JpaRepository<UserIdentifierBean, String> {
 
-	Optional<UserIdentifierBean> findByUserIdAndAuthKey(String userId, String token);
+	boolean existsUserIdentifierBeanByUserIdAndAuthKey(String userId, String token);
 
 }

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 public class AccessTokenBean {
 	
 	@Id
+	private Long id;
 	@Column(updatable = false, unique = true, nullable = false)
 	private String accessToken;
 

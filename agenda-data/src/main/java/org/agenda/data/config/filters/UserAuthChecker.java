@@ -40,15 +40,13 @@ public class UserAuthChecker extends OncePerRequestFilter {
 			        .getWebApplicationContext(request.getServletContext());
 			securityUserIdProxy = webApp.getBean(SecurityUserIdProxy.class);
 		}
-
-		if (request.getCookies() == null)
-			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+		
 		Optional<String> userIdParam = Optional.ofNullable(request.getHeader("userId"));
-		Optional<String> userKeyCookie = Optional.ofNullable(request.getHeader("userAuthKey"));
+		Optional<String> userKeyHeader = Optional.ofNullable(request.getHeader("userAuthKey"));
 
-		if (userIdParam.isEmpty() || userKeyCookie.isEmpty())
+		if (userIdParam.isEmpty() || userKeyHeader.isEmpty())
 			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "missing credentials");
-		else if (!securityUserIdProxy.isUserValid(userIdParam.get(), userKeyCookie.get()))
+		else if (!securityUserIdProxy.isUserValid(userIdParam.get(), userKeyHeader.get()))
 			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "unvalid credentials");
 		chain.doFilter(request, response);
 	}

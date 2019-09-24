@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(String id) throws NullPointerException
 	{
 		// TODO Implement the method
-		
+
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /**
- * @since 17 juil. 2019
+ * @since 24 sept. 2019
  */
 package org.agenda.data.config;
 
@@ -17,14 +17,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author LE MIERE Romain
  *
  */
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
-		http.httpBasic().and().csrf().disable().authorizeRequests().anyRequest().anonymous();
+		http.httpBasic();
+		http.csrf().disable();
+		http.authorizeRequests().anyRequest().anonymous();
 	}
 
 	@Bean
@@ -34,8 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		UserAuthChecker checker = new UserAuthChecker();
 		filterReg.setFilter(checker);
 		filterReg.setUrlPatterns(Arrays.asList("/users/private/*"));
-		filterReg.setOrder(2);
-
+		filterReg.setOrder(1);
 		return filterReg;
 	}
 

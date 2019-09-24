@@ -1,5 +1,5 @@
 /**
- * @since 16 juil. 2019
+	 * @since 16 juil. 2019
  */
 package org.agenda.data.config;
 
@@ -12,20 +12,12 @@ import org.springframework.context.annotation.Configuration;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 
-import feign.auth.BasicAuthRequestInterceptor;
-
 /**
  * @author LE MIERE Romain
  *
  */
 @Configuration
 public class BeanConfig {
-
-	@Bean
-	public BasicAuthRequestInterceptor mBasicAuthRequestInterceptor()
-	{
-		return new BasicAuthRequestInterceptor("user", "password");
-	}
 
 	@Bean
 	public MongoClientOptions mMongoClientOptions()

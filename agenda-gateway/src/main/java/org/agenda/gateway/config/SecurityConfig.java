@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CorsConfiguration corsConfig = new CorsConfiguration();
 		corsConfig.setAllowedOrigins(Arrays.asList("*"));
 		corsConfig.setAllowCredentials(true);
-		corsConfig.setExposedHeaders(Arrays.asList("userAuthKey", "userId"));
+		corsConfig.setExposedHeaders(Arrays.asList("userAuthKey"));
+		corsConfig.setAllowedHeaders(Arrays.asList("userAuthKey", "userId"));
 		corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 		Map<String, CorsConfiguration> corsConfigurations = new HashMap<>();
 		corsConfigurations.put("/**", corsConfig);

@@ -86,7 +86,13 @@ public class UserController {
 	@DeleteMapping("/private/delete")
 	public ResponseEntity<Void> delete(@RequestHeader("userId") String userId)
 	{
-		return null;
+		try {
+
+			users.deleteUser(userId);
+		} catch (NullPointerException e) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(204).build();
 	}
 
 	@GetMapping("/private/info")

@@ -44,10 +44,17 @@ public class UserAuthChecker extends OncePerRequestFilter {
 		Optional<String> userIdParam = Optional.ofNullable(request.getHeader("userId"));
 		Optional<String> userKeyHeader = Optional.ofNullable(request.getHeader("userAuthKey"));
 
-		if (userIdParam.isEmpty() || userKeyHeader.isEmpty())
-			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "missing credentials");
-		else if (!securityUserIdProxy.isUserValid(userIdParam.get(), userKeyHeader.get()))
-			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "unvalid credentials");
+		if (userIdParam.isEmpty() || userKeyHeader.isEmpty()) {
+			String msg = "missing credentials";
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), msg);
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, msg);
+		}
+			
+		else if (!securityUserIdProxy.isUserValid(userIdParam.get(), userKeyHeader.get())) {
+			String msg = "unvalid credentials";
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), msg);
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, msg);
+		}
 		chain.doFilter(request, response);
 	}
 

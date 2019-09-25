@@ -12,6 +12,7 @@ import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.Day;
 import org.agenda.model.User;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(String id) throws NullPointerException
 	{
-		// TODO Implement the method
+		users.deleteById(new ObjectId(id));
 
 	}
 

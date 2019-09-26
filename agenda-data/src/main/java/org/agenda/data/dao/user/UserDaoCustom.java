@@ -24,6 +24,8 @@ public interface UserDaoCustom {
 
 	Optional<User> getInfos(String id);
 
+	User updateUser(User user) throws UserNotFoundException;
+
 	Day saveDay(
 	    String userId,
 	    Day day

@@ -53,7 +53,7 @@ public class UserDaoCustomImplTest {
 		}
 	}
 
-	public static final String USER_ID = "5d3aeb30cb3e9d2f6c30c081";
+	public static final String USER_ID = "5d8cecdc1545ab2f74a0edaf";
 
 	@Autowired
 	private UserDao dao;
@@ -99,7 +99,29 @@ public class UserDaoCustomImplTest {
 	{
 		Optional<User> user = dao.loginUser("sophie@fon.fec", "1234");
 		assertTrue(user.isPresent());
-		assertTrue(user.get().getId().equals(USER_ID));
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.agenda.data.dao.user.UserDaoCustomImpl#updateUser(org.agenda.model.User)}.
+	 */
+	@Test
+	public final void testUpdateUser()
+	{
+		System.out.println("===========================================");
+		System.out.println("**********UPDATE USER TEST METHOD**********");
+		System.out.println("===========================================");
+		Optional<User> userOpt = dao.loginUser("sophie@fon.fec", "1234");
+		assertTrue(userOpt.isPresent());
+
+		User user = userOpt.get();
+		user.setFirstName("sophie");
+		dao.updateUser(user);
+		user.setFirstName("Sophie");
+		User res = dao.updateUser(user);
+		user.setFirstName("sophie");
+		assertTrue(user.getFirstName().equals(res.getFirstName()));
+
 	}
 
 	/**

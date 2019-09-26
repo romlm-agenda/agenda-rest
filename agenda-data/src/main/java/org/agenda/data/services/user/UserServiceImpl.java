@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.agenda.data.dao.user.UserDao;
 import org.agenda.data.model.beans.data.UserBean;
+import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.Day;
 import org.agenda.model.User;
@@ -70,8 +71,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUser(User user) throws NullPointerException
 	{
-		// TODO Implement the method
-		return null;
+		User oldUser = new User();
+		try {
+			oldUser = users.updateUser(user);
+		} catch (UserNotFoundException e) {
+			throw new NullPointerException(e.getMessage());
+		}
+		return oldUser;
 	}
 
 	@Override
@@ -80,8 +86,7 @@ public class UserServiceImpl implements UserService {
 	    Day day
 	) throws NullPointerException
 	{
-		// TODO Implement the method
-		return null;
+		return users.saveDay(userId, day);
 	}
 
 	@Override

@@ -63,12 +63,43 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	private AggregationResults<User> getResultsByCriteria(Criteria criteria)
 	{
 		MatchOperation match = Aggregation.match(criteria);
-		ProjectionOperation project = Aggregation.project("id", "email", "firstName", "lastName", "birthDate");
+		ProjectionOperation project = Aggregation.project("id", "email", "firstName", "password", "lastName",
+		        "birthDate");
 		Aggregation aggreg = Aggregation.newAggregation(match, project);
 		return mongo.aggregate(aggreg, UserBean.class, User.class);
 	}
 
 	// CRUD operations
+
+	@Override
+	public User updateUser(User user) throws UserNotFoundException
+	{
+
+		Optional<User> oldUserOpt = this.getInfos(user.getId());
+		if (oldUserOpt.isEmpty()) {
+			throw new UserNotFoundException("user not found for id: "
+			        + user.getId());
+		}
+		Query match = new Query(Criteria.where("id").is(user.getId()));
+		Update update = new Update();
+
+		User oldUser = oldUserOpt.get();
+		if (!oldUser.getEmail().equals(user.getEmail()))
+			update.set("email", user.getEmail());
+		if (!oldUser.getFirstName().equals(user.getFirstName()))
+			update.set("firstName", user.getFirstName());
+		if (!oldUser.getLastName().equals(user.getLastName()))
+			update.set("lastName", user.getLastName());
+		if (!oldUser.getBirthDate().equals(user.getBirthDate()))
+			update.set("birthDate", user.getBirthDate());
+		if (!oldUser.getPassword().equals(user.getPassword()))
+			update.set("password", user.getPassword());
+
+		if (!update.getUpdateObject().isEmpty())
+			mongo.updateFirst(match, update, UserBean.class);
+
+		return oldUser;
+	}
 
 	@Override
 	public Optional<Day> getDay(

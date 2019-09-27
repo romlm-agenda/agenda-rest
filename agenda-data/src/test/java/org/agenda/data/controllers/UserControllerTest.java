@@ -75,7 +75,7 @@ public class UserControllerTest {
 		assertTrue(response.getStatusCodeValue() == 200);
 		assertTrue(response.getHeaders().containsKey("userAuthKey"));
 		User user = response.getBody();
-		assertTrue(user.getFirstName().equalsIgnoreCase("sophie"));
+		assertTrue(user.getEmail().equals("sophie@fon.fec"));
 
 		response = users.loginUser("sophie@fon.fec", null);
 		assertTrue(response.getStatusCodeValue() == 404);
@@ -110,7 +110,14 @@ public class UserControllerTest {
 	@Test
 	public final void testGetInfo()
 	{
-		fail("Not yet implemented"); // TODO
+		ResponseEntity<User> response = users.loginUser("sophie@fon.fec", "1234");
+		assertTrue(response.getStatusCodeValue() == 200);
+		User user = response.getBody();
+
+		response = users.getInfo(user.getId());
+		assertTrue(Optional.ofNullable(response.getBody()).isPresent());
+		assertTrue(response.getBody().toString().equals(user.toString()));
+
 	}
 
 	/**
@@ -122,16 +129,15 @@ public class UserControllerTest {
 	{
 		ResponseEntity<User> response = users.loginUser("sophie@fon.fec", "1234");
 		assertTrue(response.getStatusCodeValue() == 200);
-		assertTrue(response.getHeaders().containsKey("userAuthKey"));
 		User user = response.getBody();
-	
+
 		String firstName = user.getFirstName();
 		user.setFirstName("test");
 		response = users.updateUser(user);
 		assertTrue(response.getStatusCodeValue() == 200);
 		assertTrue(Optional.ofNullable(response.getBody()).isPresent());
 		assertTrue(response.getBody().getFirstName().equals(firstName));
-		
+
 		user.setFirstName(firstName);
 		users.updateUser(user);
 	}

@@ -139,7 +139,7 @@ public class UserDaoCustomImplTest {
 		System.out.println("===========================================");
 		System.out.println(user.get());
 		System.out.println(infoUser.get());
-		assertTrue(user.get().equals(infoUser.get()));
+		assertTrue(user.get().getId().equals(infoUser.get().getId()));
 
 	}
 

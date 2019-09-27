@@ -6,8 +6,6 @@ package org.agenda.data.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.agenda.data.proxies.SecurityUserIdProxy;
 import org.agenda.data.services.user.UserService;
 import org.agenda.model.Day;
@@ -25,6 +23,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,22 +50,17 @@ public class UserController {
 	@GetMapping("/public/login")
 	public ResponseEntity<User> loginUser(
 	    @RequestParam String email,
-	    @RequestParam String password,
-	    HttpServletResponse response
+	    @RequestParam String password
 	)
 	{
-		User user = null;
 		try {
-			user = users.loginUser(email, password);
+			User user = users.loginUser(email, password);
+			String userAuthKey = securityUser.getInstance(user.getId());
+		return ResponseEntity.ok().header("userAuthKey", userAuthKey).body(user);
 		} catch (BadCredentialsException e) {
 			logger.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();
 		}
-
-		String userAuthKey = securityUser.getInstance(user.getId());
-		response.addHeader("userAuthKey", userAuthKey);
-		return ResponseEntity.ok(user);
-
 	}
 
 	@PostMapping("/public/register")
@@ -106,6 +100,18 @@ public class UserController {
 			return ResponseEntity.notFound().build();
 		}
 
+	}
+
+	@PutMapping("/private/update")
+	public ResponseEntity<User> updateUser(@RequestBody User user)
+	{
+		try {
+			User res = users.updateUser(user);
+			return ResponseEntity.ok(res);
+
+		} catch (NullPointerException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping("/private/day")

@@ -124,11 +124,16 @@ public class UserControllerTest {
 		assertTrue(response.getStatusCodeValue() == 200);
 		assertTrue(response.getHeaders().containsKey("userAuthKey"));
 		User user = response.getBody();
-
+	
+		String firstName = user.getFirstName();
+		user.setFirstName("test");
 		response = users.updateUser(user);
 		assertTrue(response.getStatusCodeValue() == 200);
 		assertTrue(Optional.ofNullable(response.getBody()).isPresent());
-		assertTrue(response.getBody().getFirstName().equals(user.getFirstName()));
+		assertTrue(response.getBody().getFirstName().equals(firstName));
+		
+		user.setFirstName(firstName);
+		users.updateUser(user);
 	}
 
 	/**

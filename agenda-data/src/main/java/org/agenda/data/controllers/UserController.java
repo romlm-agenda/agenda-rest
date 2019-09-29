@@ -6,6 +6,7 @@ package org.agenda.data.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.data.proxies.SecurityUserIdProxy;
 import org.agenda.data.services.user.UserService;
 import org.agenda.model.Day;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +56,7 @@ public class UserController {
 		try {
 			User user = users.loginUser(email, password);
 			String userAuthKey = securityUser.getInstance(user.getId());
-		return ResponseEntity.ok().header("userAuthKey", userAuthKey).body(user);
+			return ResponseEntity.ok().header("userAuthKey", userAuthKey).body(user);
 		} catch (BadCredentialsException e) {
 			logger.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();

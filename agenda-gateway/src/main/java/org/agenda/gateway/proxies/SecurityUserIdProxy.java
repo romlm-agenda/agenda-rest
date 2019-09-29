@@ -1,5 +1,5 @@
 /**
- * @since 16 juil. 2019
+ * @since 24 juil. 2019
  */
 package org.agenda.gateway.proxies;
 
@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author LE MIERE Romain
@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @FeignClient(name = "agenda-security")
 @RibbonClient(name = "agenda-security")
-@RequestMapping("/token/")
-public interface SecurityProxy {
+@RequestMapping("/user/")
+public interface SecurityUserIdProxy {
 
 	@GetMapping
-	String getToken();
+	String getInstance(@RequestParam("userId") String userId);
 
 	@PostMapping
-	boolean isTokenValid(@RequestBody String token);
+	boolean isUserValid(
+	    @RequestParam("userId") String userId,
+	    @RequestParam("userAuthKey") String authKey
+	);
 
 	@DeleteMapping
-	void deleteToken(@RequestBody String token);
+	void deleteUser(@RequestParam("userId") String userId);
 
 }

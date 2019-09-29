@@ -7,10 +7,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.model.Day;
 import org.agenda.model.User;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 /**

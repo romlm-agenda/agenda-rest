@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.agenda.gateway.filters.UserAuthChecker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +24,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private SecurityProperties props;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
@@ -41,6 +48,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		corsConfigurations.put("/**", corsConfig);
 		corsConfigurationSource.setCorsConfigurations(corsConfigurations);
 		http.cors().configurationSource(corsConfigurationSource);
+	}
+
+	@Bean
+	public FilterRegistrationBean<UserAuthChecker> mUserAuthChecker()
+	{
+		FilterRegistrationBean<UserAuthChecker> filterReg = new FilterRegistrationBean<>();
+		UserAuthChecker checker = new UserAuthChecker();
+		filterReg.setFilter(checker);
+		filterReg.setUrlPatterns(props.getSecurity().getSecuredPaths());
+		filterReg.setOrder(2);
+		return filterReg;
 	}
 
 }

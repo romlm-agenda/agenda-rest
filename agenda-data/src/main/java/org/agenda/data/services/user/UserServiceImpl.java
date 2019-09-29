@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.agenda.data.dao.user.UserDao;
 import org.agenda.data.model.beans.data.UserBean;
+import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.Day;
@@ -16,7 +17,6 @@ import org.agenda.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 /**

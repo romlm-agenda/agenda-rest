@@ -95,8 +95,7 @@ public class UserServiceImpl implements UserService {
 	    LocalDate date
 	)
 	{
-		// TODO Implement the method
-		return null;
+		return users.getDay(userId, date);
 	}
 
 	@Override
@@ -106,18 +105,16 @@ public class UserServiceImpl implements UserService {
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		return users.getDays(userId, from, to);
 	}
 
 	@Override
-	public Long deleteDay(
+	public boolean deleteDay(
 	    String userId,
 	    LocalDate date
 	)
 	{
-		// TODO Implement the method
-		return null;
+		return users.deleteDay(userId, date) == 1;
 	}
 
 	@Override
@@ -127,8 +124,7 @@ public class UserServiceImpl implements UserService {
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		return users.deleteDays(userId, from, to);
 	}
 
 }

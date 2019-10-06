@@ -49,7 +49,7 @@ public interface UserService {
 	    LocalDate to
 	);
 
-	Long deleteDay(
+	boolean deleteDay(
 	    String userId,
 	    LocalDate date
 	);

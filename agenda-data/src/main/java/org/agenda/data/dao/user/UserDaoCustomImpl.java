@@ -11,8 +11,10 @@ import java.util.Optional;
 
 import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.data.model.exceptions.UserNotFoundException;
+import org.agenda.data.model.mappers.DayMapper;
 import org.agenda.model.Day;
 import org.agenda.model.User;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -113,7 +115,11 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		Aggregation aggregation = prepareAggregation(userId, project, unwind, match);
 
 		AggregationResults<Day> results = mongo.aggregate(aggregation, UserBean.class, Day.class);
-		return Optional.ofNullable(results.getUniqueMappedResult());
+
+		@SuppressWarnings("unchecked")
+		List<Document> documents = (List<Document>) results.getRawResults().get("results", List.class);
+		Document dayDoc = documents.get(0).get("days", Document.class);
+		return Optional.ofNullable(DayMapper.mapDay(dayDoc));
 	}
 
 	@Override

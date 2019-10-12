@@ -29,7 +29,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 /**
@@ -118,6 +117,8 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 
 		@SuppressWarnings("unchecked")
 		List<Document> documents = (List<Document>) results.getRawResults().get("results", List.class);
+		if (documents.isEmpty())
+			return Optional.empty();
 		Document dayDoc = documents.get(0).get("days", Document.class);
 		return Optional.ofNullable(DayMapper.mapDay(dayDoc));
 	}
@@ -146,9 +147,10 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	)
 	{
 		Query query = new Query(Criteria.where("id").is(userId).and("days.date").is(date));
-		DeleteResult results = mongo.remove(query, UserBean.class);
+		Update update = new Update().pull("days", Query.query(Criteria.where("date").is(date)));
+		UpdateResult results = mongo.updateFirst(query, update, UserBean.class);
 
-		return results.getDeletedCount();
+		return results.getModifiedCount();
 	}
 
 	@Override
@@ -159,8 +161,9 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	)
 	{
 		Query query = new Query(Criteria.where("id").is(userId).and("days.date").gte(from).lte(to));
-		DeleteResult results = mongo.remove(query, UserBean.class);
-		return results.getDeletedCount();
+		Update update = new Update().pull("days", Query.query(Criteria.where("date").gte(from).lte(to)));
+		UpdateResult results = mongo.updateMulti(query, update, UserBean.class);
+		return results.getModifiedCount();
 	}
 
 	@Override
@@ -170,8 +173,7 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 	)
 	{
 		Query query = new Query(Criteria.where("id").is(userId).and("days.date").is(day.getDate()));
-		Update update = new Update();
-		update.set("days.0", day);
+		Update update = new Update().set("days.$", day);
 
 		UpdateResult results = mongo.updateFirst(query, update, UserBean.class);
 		if (results.getModifiedCount() == 0) {

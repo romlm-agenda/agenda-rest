@@ -53,7 +53,7 @@ public class UserDaoCustomImplTest {
 		}
 	}
 
-	public static final String USER_ID = "5d8cecdc1545ab2f74a0edaf";
+	public static final String USER_ID = "5da1d52ceff9812c30ecc7bc";
 
 	@Autowired
 	private UserDao dao;
@@ -151,7 +151,7 @@ public class UserDaoCustomImplTest {
 	public final void testSaveDay()
 	{
 		Day day = new Day();
-		day.setDate(LocalDate.parse("2019-06-06"));
+		day.setDate(LocalDate.now());
 		Occupation occ = new Occupation(new OccupationType("sport", "volley"), LocalTime.now(), LocalTime.now(),
 		        new DisplayInfos("black", "white"));
 		day.getOccupations().add(occ);
@@ -172,20 +172,24 @@ public class UserDaoCustomImplTest {
 	@Test
 	public final void testGetDays()
 	{
-		LocalDate from = LocalDate.parse("2019-06-06");
-		LocalDate to = LocalDate.parse("2019-06-28");
-		List<Day> days = dao.getDays(USER_ID, from, to);
 		System.out.println("===========================================");
 		System.out.println("***********GET DAYS TEST METHOD************");
 		System.out.println("===========================================");
+		LocalDate from = LocalDate.parse("2019-06-06");
+		LocalDate to = LocalDate.parse("2019-06-28");
+		List<Day> days = dao.getDays(USER_ID, from, to);
+
 		System.out.println(days);
 	}
 
 	@Test
 	public final void testDeleteDay()
 	{
+		System.out.println("===========================================");
+		System.out.println("***********DELETE DAY TEST METHOD**********");
+		System.out.println("===========================================");
 		LocalDate date = LocalDate.now();
-		assertTrue((dao.getDay(USER_ID, date).isPresent() ? 1 : 0) == dao.deleteDay(USER_ID, date));
+		dao.deleteDay(USER_ID, date);
 	}
 
 	@Test

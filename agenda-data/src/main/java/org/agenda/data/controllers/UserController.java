@@ -5,6 +5,7 @@ package org.agenda.data.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.data.proxies.SecurityUserIdProxy;
@@ -120,7 +121,10 @@ public class UserController {
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
 	{
-		return null;
+		Optional<Day> dayOpt = users.getDay(userId, date);
+		if (dayOpt.isEmpty())
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(dayOpt.get());
 	}
 
 	@GetMapping("/private/days")
@@ -130,7 +134,10 @@ public class UserController {
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
 	)
 	{
-		return null;
+		List<Day> days = users.getDays(userId, from, to);
+		if (days.isEmpty())
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(days);
 	}
 
 	@GetMapping("/private/week")

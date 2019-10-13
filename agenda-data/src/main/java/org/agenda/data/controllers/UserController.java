@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,6 +128,17 @@ public class UserController {
 		return ResponseEntity.ok(dayOpt.get());
 	}
 
+	@DeleteMapping("/private/day")
+	public ResponseEntity<Void> deleteDayByDate(
+	    @RequestHeader("userId") String userId,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+	)
+	{
+		if (!users.deleteDay(userId, date))
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
 	@GetMapping("/private/days")
 	public ResponseEntity<List<Day>> getDaysBetweenDates(
 	    @RequestHeader("userId") String userId,
@@ -138,6 +150,19 @@ public class UserController {
 		if (days.isEmpty())
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(days);
+	}
+
+	@DeleteMapping("/private/days")
+	public ResponseEntity<Long> deleteDaysByDates(
+	    @RequestHeader("userId") String userId,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+	)
+	{
+		Long modified = users.deleteDays(userId, from, to);
+		if(modified <= 0)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/private/week")

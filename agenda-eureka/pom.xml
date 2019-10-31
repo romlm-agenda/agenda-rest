@@ -17,8 +17,10 @@
 	<description>discovery server for agenda-rest project</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>13</java.version>
 		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
 	<dependencies>

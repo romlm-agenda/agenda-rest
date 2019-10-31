@@ -206,7 +206,8 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetWeeks()
 	{
-		fail("Not yet implemented"); // TODO
+		System.out.println(users.getWeeks(USER_ID, LocalDate.now(), LocalDate.now().plusWeeks(1)));
+
 	}
 
 	/**

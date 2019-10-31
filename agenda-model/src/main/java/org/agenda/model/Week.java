@@ -73,7 +73,7 @@ public class Week {
 	@Override
 	public String toString()
 	{
-		String s = "Day={";
+		String s = "Week={";
 		for (Field f : this.getClass().getDeclaredFields()) {
 			Object o = null;
 			try {

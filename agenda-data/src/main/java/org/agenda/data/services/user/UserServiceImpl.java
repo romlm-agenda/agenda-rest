@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.agenda.data.dao.user.UserDao;
 import org.agenda.data.model.beans.data.UserBean;
@@ -174,8 +175,18 @@ public class UserServiceImpl implements UserService {
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		List<LocalDate> dates = new ArrayList<>();
+		if (from.isAfter(to)) {
+			LocalDate date = from;
+			from = to;
+			to = date;
+		}
+		for (LocalDate date = from; date.isBefore(to) || date.isEqual(to); date = date.plusWeeks(1))
+			dates.add(date);
+
+		List<Week> weeks = dates.stream().map(date -> this.getWeek(userId, date)).collect(Collectors.toList());
+
+		return weeks;
 	}
 
 	@Override

@@ -4,7 +4,11 @@
 package org.agenda.data.services.user;
 
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.agenda.data.dao.user.UserDao;
@@ -13,7 +17,10 @@ import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.Day;
+import org.agenda.model.Month;
 import org.agenda.model.User;
+import org.agenda.model.Week;
+import org.agenda.model.Year;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -125,6 +132,134 @@ public class UserServiceImpl implements UserService {
 	)
 	{
 		return users.deleteDays(userId, from, to);
+	}
+
+	@Override
+	public List<Day> saveDays(
+	    String userId,
+	    List<Day> days
+	)
+	{
+		List<Day> results = new ArrayList<>();
+		for (Day day : days) {
+			results.add(this.saveDay(userId, day));
+		}
+		return results;
+	}
+
+	@Override
+	public Week saveWeek(
+	    String userId,
+	    Week week
+	)
+	{
+		List<Day> days = week.getDays();
+		Week results = new Week(week.getYearId(), week.getWeekId(), this.saveDays(userId, days));
+		return results;
+	}
+
+	@Override
+	public Week getWeek(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		final int currentDay = date.getDayOfWeek().getValue();
+		List<Day> days = new ArrayList<>();
+		// @formatter:off
+		for (int i = -currentDay + 1; i <= 7 - currentDay; i++) {
+		// @formatter:on
+			LocalDate currentDate = date.plusDays(Integer.valueOf(i).longValue());
+			Optional<Day> optDay = this.getDay(userId, currentDate);
+			days.add(optDay.isPresent() ? optDay.get() : new Day(currentDate, Arrays.asList(), Arrays.asList()));
+		}
+		final int weekId = date.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+		Week week = new Week(date.getYear(), weekId, days);
+		return week;
+	}
+
+	@Override
+	public boolean deleteWeek(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		// TODO Implement the method
+		return false;
+	}
+
+	@Override
+	public List<Week> saveWeeks(
+	    String userId,
+	    List<Week> weeks
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public List<Week> getWeeks(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public Long deleteWeeks(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public Month getMonth(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public List<Month> getMonths(
+	    String userId,
+	    LocalDate fro,
+	    LocalDate to
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public Year getYear(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		// TODO Implement the method
+		return null;
+	}
+
+	@Override
+	public Year getYears(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	)
+	{
+		// TODO Implement the method
+		return null;
 	}
 
 }

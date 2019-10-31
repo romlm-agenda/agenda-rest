@@ -9,7 +9,10 @@ import java.util.Optional;
 
 import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.model.Day;
+import org.agenda.model.Month;
 import org.agenda.model.User;
+import org.agenda.model.Week;
+import org.agenda.model.Year;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +39,21 @@ public interface UserService {
 	Day saveDay(
 	    String userId,
 	    Day day
-	) throws NullPointerException;
+	);
 
 	Optional<Day> getDay(
 	    String userId,
 	    LocalDate date
+	);
+
+	boolean deleteDay(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<Day> saveDays(
+	    String userId,
+	    List<Day> days
 	);
 
 	List<Day> getDays(
@@ -49,12 +62,61 @@ public interface UserService {
 	    LocalDate to
 	);
 
-	boolean deleteDay(
+	Long deleteDays(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	);
+
+	Week saveWeek(
+	    String userId,
+	    Week week
+	);
+
+	Week getWeek(
 	    String userId,
 	    LocalDate date
 	);
 
-	Long deleteDays(
+	boolean deleteWeek(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<Week> saveWeeks(
+	    String userId,
+	    List<Week> weeks
+	);
+
+	List<Week> getWeeks(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	);
+
+	Long deleteWeeks(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	);
+
+	Month getMonth(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<Month> getMonths(
+	    String userId,
+	    LocalDate fro,
+	    LocalDate to
+	);
+
+	Year getYear(
+	    String userId,
+	    LocalDate date
+	);
+
+	Year getYears(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

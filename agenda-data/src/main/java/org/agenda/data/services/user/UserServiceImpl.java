@@ -148,17 +148,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Week saveWeek(
-	    String userId,
-	    Week week
-	)
-	{
-		List<Day> days = week.getDays();
-		Week results = new Week(week.getYearId(), week.getWeekId(), this.saveDays(userId, days));
-		return results;
-	}
-
-	@Override
 	public Week getWeek(
 	    String userId,
 	    LocalDate date
@@ -179,38 +168,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean deleteWeek(
-	    String userId,
-	    LocalDate date
-	)
-	{
-		// TODO Implement the method
-		return false;
-	}
-
-	@Override
-	public List<Week> saveWeeks(
-	    String userId,
-	    List<Week> weeks
-	)
-	{
-		// TODO Implement the method
-		return null;
-	}
-
-	@Override
 	public List<Week> getWeeks(
-	    String userId,
-	    LocalDate from,
-	    LocalDate to
-	)
-	{
-		// TODO Implement the method
-		return null;
-	}
-
-	@Override
-	public Long deleteWeeks(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

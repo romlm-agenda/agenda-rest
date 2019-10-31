@@ -68,33 +68,12 @@ public interface UserService {
 	    LocalDate to
 	);
 
-	Week saveWeek(
-	    String userId,
-	    Week week
-	);
-
 	Week getWeek(
 	    String userId,
 	    LocalDate date
 	);
 
-	boolean deleteWeek(
-	    String userId,
-	    LocalDate date
-	);
-
-	List<Week> saveWeeks(
-	    String userId,
-	    List<Week> weeks
-	);
-
 	List<Week> getWeeks(
-	    String userId,
-	    LocalDate from,
-	    LocalDate to
-	);
-
-	Long deleteWeeks(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

@@ -181,16 +181,6 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#saveWeek(java.lang.String, org.agenda.model.Week)}.
-	 */
-	@Test
-	public final void testSaveWeek()
-	{
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for
 	 * {@link org.agenda.data.services.user.UserServiceImpl#getWeek(java.lang.String, java.time.LocalDate)}.
 	 */
 	@Test
@@ -211,40 +201,10 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#deleteWeek(java.lang.String, java.time.LocalDate)}.
-	 */
-	@Test
-	public final void testDeleteWeek()
-	{
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#saveWeeks(java.lang.String, java.util.List)}.
-	 */
-	@Test
-	public final void testSaveWeeks()
-	{
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for
 	 * {@link org.agenda.data.services.user.UserServiceImpl#getWeeks(java.lang.String, java.time.LocalDate, java.time.LocalDate)}.
 	 */
 	@Test
 	public final void testGetWeeks()
-	{
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#deleteWeeks(java.lang.String, java.time.LocalDate, java.time.LocalDate)}.
-	 */
-	@Test
-	public final void testDeleteWeeks()
 	{
 		fail("Not yet implemented"); // TODO
 	}

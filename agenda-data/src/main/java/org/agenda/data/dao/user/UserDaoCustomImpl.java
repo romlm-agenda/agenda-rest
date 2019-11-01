@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.agenda.data.model.beans.data.UserBean;
 import org.agenda.data.model.exceptions.UserNotFoundException;
@@ -137,7 +138,11 @@ public class UserDaoCustomImpl implements UserDaoCustom {
 		Aggregation aggregation = prepareAggregation(userId, project, unwind, match);
 		AggregationResults<Day> results = mongo.aggregate(aggregation, UserBean.class, Day.class);
 
-		return results.getMappedResults();
+		@SuppressWarnings("unchecked")
+		List<Document> documents = (List<Document>) results.getRawResults().get("results", List.class);
+		List<Day> days = documents.stream().map(doc -> DayMapper.mapDay(doc.get("days", Document.class)))
+		        .collect(Collectors.toList());
+		return days;
 	}
 
 	@Override

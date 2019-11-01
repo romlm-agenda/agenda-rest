@@ -274,8 +274,13 @@ public class UserServiceImpl implements UserService {
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		List<WeekBasedYear> years = new ArrayList<>();
+		for (LocalDate date = LocalDate.of(from.getYear(), 1, 1); date.isBefore(to)
+		        || date.isEqual(to); date = date.plusYears(1)) {
+			years.add(this.getWeekBasedYear(userId, date));
+		}
+
+		return years;
 	}
 
 }

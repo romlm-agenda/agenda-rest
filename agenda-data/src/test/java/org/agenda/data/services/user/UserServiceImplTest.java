@@ -219,7 +219,7 @@ public class UserServiceImplTest {
 	public final void testGetMonth()
 	{
 		System.out.println("=====================================");
-		System.out.println("************GET MONTH YEAR***********");
+		System.out.println("**************GET MONTH**************");
 		System.out.println("=====================================");
 		System.out.println(users.getMonth(USER_ID, LocalDate.now()));
 	}
@@ -231,6 +231,9 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetMonths()
 	{
+		System.out.println("=====================================");
+		System.out.println("**************GET MONTHS*************");
+		System.out.println("=====================================");
 		System.out.println(users.getMonths(USER_ID, LocalDate.parse("2019-06-30"), LocalDate.parse("2019-10-10")));
 	}
 
@@ -242,7 +245,7 @@ public class UserServiceImplTest {
 	public final void testGetWeekBasedYear()
 	{
 		System.out.println("=====================================");
-		System.out.println("**********GET WEEK BASED YEAR********");
+		System.out.println("*********GET WEEK BASED YEAR*********");
 		System.out.println("=====================================");
 		System.out.println(users.getWeekBasedYear(USER_ID, LocalDate.now()).getWeeks().size());
 	}
@@ -270,7 +273,11 @@ public class UserServiceImplTest {
 		System.out.println("=====================================");
 		System.out.println("*********GET WEEK BASED YEARS********");
 		System.out.println("=====================================");
-		fail("Not yet implemented"); // TODO
+		System.out
+		        .println(users.getWeekBasedYears(USER_ID, LocalDate.parse("2018-06-01"), LocalDate.parse("2019-10-11"))
+		                .stream().map(year -> year.getWeeks().size()).reduce((
+		                    x,
+		                    y) -> x + y));
 	}
 
 	/**

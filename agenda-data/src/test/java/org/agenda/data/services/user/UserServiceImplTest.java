@@ -186,6 +186,9 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetWeek()
 	{
+		System.out.println("=====================================");
+		System.out.println("**************GET WEEK**************");
+		System.out.println("=====================================");
 		LocalDate date = LocalDate.now();
 		Week week = users.getWeek(USER_ID, date);
 		int dayOfWeek = date.get(WeekFields.of(Locale.getDefault()).dayOfWeek());
@@ -215,8 +218,10 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetMonth()
 	{
+		System.out.println("=====================================");
+		System.out.println("************GET MONTH YEAR***********");
+		System.out.println("=====================================");
 		System.out.println(users.getMonth(USER_ID, LocalDate.now()));
-		System.out.println(users.getDay(USER_ID, LocalDate.parse("2019-10-12")));
 	}
 
 	/**
@@ -241,7 +246,7 @@ public class UserServiceImplTest {
 		System.out.println("=====================================");
 		System.out.println(users.getWeekBasedYear(USER_ID, LocalDate.now()).getWeeks().size());
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link org.agenda.data.services.user.UserServiceImpl#getMonthBasedYear(java.lang.String, java.time.LocalDate)}.
@@ -257,12 +262,32 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#getYears(java.lang.String, java.time.LocalDate, java.time.LocalDate)}.
+	 * {@link org.agenda.data.services.user.UserServiceImpl#getWeekBasedYears(java.lang.String, java.time.LocalDate, java.time.LocalDate)}.
 	 */
 	@Test
-	public final void testGetYears()
+	public final void testGetWeekBasedYears()
 	{
+		System.out.println("=====================================");
+		System.out.println("*********GET WEEK BASED YEARS********");
+		System.out.println("=====================================");
 		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.agenda.data.services.user.UserServiceImpl#getMonthBasedYears(java.lang.String, java.time.LocalDate, java.time.LocalDate)}.
+	 */
+	@Test
+	public final void testGetMonthBasedYears()
+	{
+		System.out.println("=====================================");
+		System.out.println("*********GET MONTH BASED YEARS*******");
+		System.out.println("=====================================");
+		System.out
+		        .println(users.getMonthBasedYears(USER_ID, LocalDate.parse("2018-06-01"), LocalDate.parse("2019-10-11"))
+		                .stream().map(year -> year.getMonths().size()).reduce((
+		                    x,
+		                    y) -> x + y));
 	}
 
 }

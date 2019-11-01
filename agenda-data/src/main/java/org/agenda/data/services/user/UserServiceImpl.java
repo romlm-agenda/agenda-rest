@@ -158,9 +158,7 @@ public class UserServiceImpl implements UserService {
 	{
 		final int currentDay = date.getDayOfWeek().getValue();
 		List<Day> days = new ArrayList<>();
-		// @formatter:off
 		for (int i = -currentDay + 1; i <= 7 - currentDay; i++) {
-		// @formatter:on
 			LocalDate currentDate = date.plusDays(Integer.valueOf(i).longValue());
 			Optional<Day> optDay = this.getDay(userId, currentDate);
 			days.add(optDay.isPresent() ? optDay.get() : new Day(currentDate, Arrays.asList(), Arrays.asList()));
@@ -261,8 +259,12 @@ public class UserServiceImpl implements UserService {
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		List<MonthBasedYear> years = new ArrayList<>();
+		for (LocalDate date = LocalDate.of(from.getYear(), 1, 1); date.isBefore(to)
+		        || date.isEqual(to); date = date.plusYears(1)) {
+			years.add(this.getMonthBasedYear(userId, date));
+		}
+		return years;
 	}
 
 	@Override

@@ -12,9 +12,10 @@ import org.agenda.data.proxies.SecurityUserIdProxy;
 import org.agenda.data.services.user.UserService;
 import org.agenda.model.Day;
 import org.agenda.model.Month;
+import org.agenda.model.MonthBasedYear;
 import org.agenda.model.User;
 import org.agenda.model.Week;
-import org.agenda.model.Year;
+import org.agenda.model.WeekBasedYear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,18 @@ public class UserController {
 		return ResponseEntity.ok(dayOpt.get());
 	}
 
+	@PostMapping("/private/day")
+	public ResponseEntity<Day> saveDay(
+	    @RequestHeader("userId") String userId,
+	    @RequestBody Day day
+	)
+	{
+		Optional<Day> optDay = users.saveDay(userId, day);
+		if(optDay.isEmpty())
+			return ResponseEntity.created(null).build();
+		return ResponseEntity.ok(optDay.get());
+	}
+
 	@DeleteMapping("/private/day")
 	public ResponseEntity<Void> deleteDay(
 	    @RequestHeader("userId") String userId,
@@ -153,14 +166,14 @@ public class UserController {
 	}
 
 	@DeleteMapping("/private/days")
-	public ResponseEntity<Long> deleteDayss(
+	public ResponseEntity<Long> deleteDays(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
 	)
 	{
 		Long modified = users.deleteDays(userId, from, to);
-		if(modified <= 0)
+		if (modified <= 0)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.noContent().build();
 	}
@@ -203,8 +216,8 @@ public class UserController {
 		return null;
 	}
 
-	@GetMapping("/private/year")
-	public Year getYear(
+	@GetMapping("/private/year/week")
+	public ResponseEntity<WeekBasedYear> getWeekBasedYear(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -212,8 +225,27 @@ public class UserController {
 		return null;
 	}
 
-	@GetMapping("/private/years")
-	public ResponseEntity<List<Year>> getYears(
+	@GetMapping("/private/year/month")
+	public ResponseEntity<MonthBasedYear> getMonthBasedYear(
+	    @RequestHeader("userId") String userId,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+	)
+	{
+		return null;
+	}
+
+	@GetMapping("/private/years/week")
+	public ResponseEntity<List<WeekBasedYear>> getWeekBasedYears(
+	    @RequestHeader("userId") String userId,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+	)
+	{
+		return null;
+	}
+
+	@GetMapping("/private/years/month")
+	public ResponseEntity<List<MonthBasedYear>> getMonthBasedYears(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to

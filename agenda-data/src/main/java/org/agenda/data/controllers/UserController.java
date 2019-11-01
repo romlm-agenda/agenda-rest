@@ -136,7 +136,7 @@ public class UserController {
 	)
 	{
 		Optional<Day> optDay = users.saveDay(userId, day);
-		if(optDay.isEmpty())
+		if (optDay.isEmpty())
 			return ResponseEntity.created(null).build();
 		return ResponseEntity.ok(optDay.get());
 	}
@@ -163,6 +163,15 @@ public class UserController {
 		if (days.isEmpty())
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(days);
+	}
+
+	@PostMapping("/private/days")
+	public ResponseEntity<List<Day>> saveDays(
+	    @RequestHeader("userId") String userId,
+	    @RequestBody List<Day> days
+	)
+	{
+		return ResponseEntity.ok(users.saveDays(userId, days));
 	}
 
 	@DeleteMapping("/private/days")

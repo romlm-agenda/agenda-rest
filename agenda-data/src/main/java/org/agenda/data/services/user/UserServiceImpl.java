@@ -20,9 +20,10 @@ import org.agenda.data.model.exceptions.UserNotFoundException;
 import org.agenda.data.model.mappers.UserMapper;
 import org.agenda.model.Day;
 import org.agenda.model.Month;
+import org.agenda.model.MonthBasedYear;
 import org.agenda.model.User;
 import org.agenda.model.Week;
-import org.agenda.model.Year;
+import org.agenda.model.WeekBasedYear;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -225,9 +226,39 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Year getYear(
+	public MonthBasedYear getMonthBasedYear(
 	    String userId,
 	    LocalDate date
+	)
+	{
+		MonthBasedYear year = new MonthBasedYear(date.getYear(), new ArrayList<>());
+		for (LocalDate d = LocalDate.of(date.getYear(), 1, 1); d
+		        .isBefore(LocalDate.of(date.getYear(), 12, 31)); d = d.plusMonths(1)) {
+			year.getMonths().add(this.getMonth(userId, d));
+
+		}
+		return year;
+	}
+
+	@Override
+	public WeekBasedYear getWeekBasedYear(
+	    String userId,
+	    LocalDate date
+	)
+	{
+		WeekBasedYear year = new WeekBasedYear(date.getYear(), new ArrayList<>());
+		for (LocalDate d = LocalDate.of(date.getYear(), 1, 1); d
+		        .isBefore(LocalDate.of(date.getYear(), 12, 31)); d = d.plusWeeks(1)) {
+			year.getWeeks().add(this.getWeek(userId, d));
+		}
+		return year;
+	}
+
+	@Override
+	public List<MonthBasedYear> getMonthBasedYears(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
 	)
 	{
 		// TODO Implement the method
@@ -235,7 +266,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Year getYears(
+	public List<WeekBasedYear> getWeekBasedYears(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

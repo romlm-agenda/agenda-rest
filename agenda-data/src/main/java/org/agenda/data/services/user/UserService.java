@@ -10,9 +10,10 @@ import java.util.Optional;
 import org.agenda.data.model.exceptions.BadCredentialsException;
 import org.agenda.model.Day;
 import org.agenda.model.Month;
+import org.agenda.model.MonthBasedYear;
 import org.agenda.model.User;
 import org.agenda.model.Week;
-import org.agenda.model.Year;
+import org.agenda.model.WeekBasedYear;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -90,12 +91,23 @@ public interface UserService {
 	    LocalDate to
 	);
 
-	Year getYear(
+	MonthBasedYear getMonthBasedYear(
 	    String userId,
 	    LocalDate date
 	);
 
-	Year getYears(
+	WeekBasedYear getWeekBasedYear(
+	    String userId,
+	    LocalDate date
+	);
+
+	List<MonthBasedYear> getMonthBasedYears(
+	    String userId,
+	    LocalDate from,
+	    LocalDate to
+	);
+
+	List<WeekBasedYear> getWeekBasedYears(
 	    String userId,
 	    LocalDate from,
 	    LocalDate to

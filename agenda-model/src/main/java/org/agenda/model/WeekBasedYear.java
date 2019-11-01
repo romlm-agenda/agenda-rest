@@ -3,6 +3,7 @@
  */
 package org.agenda.model;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,28 @@ public class WeekBasedYear extends Year {
 	public final void setWeeks(List<Week> weeks)
 	{
 		this.weeks = weeks;
+	}
+	
+	@Override
+	public String toString()
+	{
+		String s = this.getClass().getName()
+		        + "={";
+		for (Field f : this.getClass().getDeclaredFields()) {
+			Object o = null;
+			try {
+				o = f.get(this);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			s += "\n\t"
+			        + f.getName()
+			        + ": "
+			        + (o != null ? o.toString() : null)
+			        + ",";
+		}
+		return s
+		        + "\n}";
 	}
 
 }

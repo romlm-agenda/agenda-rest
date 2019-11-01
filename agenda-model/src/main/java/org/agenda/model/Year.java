@@ -3,8 +3,6 @@
  */
 package org.agenda.model;
 
-import java.lang.reflect.Field;
-
 /**
  * 
  * @author LE MIERE Romain
@@ -26,28 +24,6 @@ public abstract class Year {
 	protected Year(int yearId) {
 		super();
 		this.yearId = yearId;
-	}
-
-	@Override
-	public String toString()
-	{
-		String s = this.getClass().getName()
-		        + "={";
-		for (Field f : this.getClass().getDeclaredFields()) {
-			Object o = null;
-			try {
-				o = f.get(this);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			s += "\n\t"
-			        + f.getName()
-			        + ": "
-			        + (o != null ? o.toString() : null)
-			        + ",";
-		}
-		return s
-		        + "\n}";
 	}
 
 	/**

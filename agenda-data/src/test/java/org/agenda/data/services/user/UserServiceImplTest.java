@@ -231,12 +231,28 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link org.agenda.data.services.user.UserServiceImpl#getYear(java.lang.String, java.time.LocalDate)}.
+	 * {@link org.agenda.data.services.user.UserServiceImpl#getWeekBasedYear(java.lang.String, java.time.LocalDate)}.
 	 */
 	@Test
-	public final void testGetYear()
+	public final void testGetWeekBasedYear()
 	{
-		fail("Not yet implemented"); // TODO
+		System.out.println("=====================================");
+		System.out.println("**********GET WEEK BASED YEAR********");
+		System.out.println("=====================================");
+		System.out.println(users.getWeekBasedYear(USER_ID, LocalDate.now()).getWeeks().size());
+	}
+	
+	/**
+	 * Test method for
+	 * {@link org.agenda.data.services.user.UserServiceImpl#getMonthBasedYear(java.lang.String, java.time.LocalDate)}.
+	 */
+	@Test
+	public final void testGetMonthBasedYear()
+	{
+		System.out.println("=====================================");
+		System.out.println("*********GET MONTH BASED YEAR********");
+		System.out.println("=====================================");
+		System.out.println(users.getMonthBasedYear(USER_ID, LocalDate.now()).getMonths().size());
 	}
 
 	/**

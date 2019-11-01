@@ -117,7 +117,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/day")
-	public ResponseEntity<Day> getDayByDate(
+	public ResponseEntity<Day> getDay(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -129,7 +129,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/private/day")
-	public ResponseEntity<Void> deleteDayByDate(
+	public ResponseEntity<Void> deleteDay(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -140,7 +140,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/days")
-	public ResponseEntity<List<Day>> getDaysBetweenDates(
+	public ResponseEntity<List<Day>> getDays(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
@@ -153,7 +153,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/private/days")
-	public ResponseEntity<Long> deleteDaysByDates(
+	public ResponseEntity<Long> deleteDayss(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
@@ -166,7 +166,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/week")
-	public ResponseEntity<Week> getWeekByDate(
+	public ResponseEntity<Week> getWeek(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -175,7 +175,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/weeks")
-	public ResponseEntity<List<Week>> getWeeksByDate(
+	public ResponseEntity<List<Week>> getWeeks(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
@@ -185,7 +185,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/month")
-	public ResponseEntity<Month> getMonthByDate(
+	public ResponseEntity<Month> getMonth(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -194,7 +194,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/months")
-	public ResponseEntity<List<Month>> getMonthsByDate(
+	public ResponseEntity<List<Month>> getMonths(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
@@ -204,7 +204,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/year")
-	public Year getYearByDate(
+	public Year getYear(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
@@ -213,7 +213,7 @@ public class UserController {
 	}
 
 	@GetMapping("/private/years")
-	public ResponseEntity<List<Year>> getYearsByDate(
+	public ResponseEntity<List<Year>> getYears(
 	    @RequestHeader("userId") String userId,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to

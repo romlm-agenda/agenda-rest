@@ -79,7 +79,7 @@ public class Month {
 	@Override
 	public String toString()
 	{
-		String s = "Day={";
+		String s = "Month={";
 		for (Field f : this.getClass().getDeclaredFields()) {
 			Object o = null;
 			try {

@@ -10,14 +10,11 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.agenda.data.model.codecs.DayCodec;
 import org.agenda.model.Day;
 import org.agenda.model.DisplayInfos;
 import org.agenda.model.Occupation;
 import org.agenda.model.OccupationType;
 import org.agenda.model.User;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,12 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 
 /**
  * @author LE MIERE Romain
@@ -40,18 +32,6 @@ import com.mongodb.MongoClientOptions;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class UserDaoCustomImplTest {
-
-	@TestConfiguration
-	public static class MongoConfiguration {
-		@Bean
-		public MongoClientOptions mongoClientOptions()
-		{
-			final CodecRegistry registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
-			        CodecRegistries.fromCodecs(new DayCodec()));
-			return MongoClientOptions.builder().codecRegistry(registry).build();
-
-		}
-	}
 
 	public static final String USER_ID = "5da1d52ceff9812c30ecc7bc";
 
@@ -175,8 +155,8 @@ public class UserDaoCustomImplTest {
 		System.out.println("===========================================");
 		System.out.println("***********GET DAYS TEST METHOD************");
 		System.out.println("===========================================");
-		LocalDate from = LocalDate.parse("2019-06-06");
-		LocalDate to = LocalDate.parse("2019-06-28");
+		LocalDate from = LocalDate.parse("2019-10-01");
+		LocalDate to = LocalDate.parse("2019-10-31");
 		List<Day> days = dao.getDays(USER_ID, from, to);
 
 		System.out.println(days);

@@ -190,9 +190,7 @@ public class UserServiceImplTest {
 		Week week = users.getWeek(USER_ID, date);
 		int dayOfWeek = date.get(WeekFields.of(Locale.getDefault()).dayOfWeek());
 		List<LocalDate> dates = new ArrayList<>();
-		for (int i = -dayOfWeek
-		        + 1; i <= 7
-		                - dayOfWeek; i++) {
+		for (int i = -dayOfWeek + 1; i <= 7 - dayOfWeek; i++) {
 			dates.add(date.plusDays(i));
 		}
 		assertTrue(dates.equals(week.getDays().stream().map(day -> day.getDate()).collect(Collectors.toList())));
@@ -217,7 +215,8 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetMonth()
 	{
-		fail("Not yet implemented"); // TODO
+		System.out.println(users.getMonth(USER_ID, LocalDate.now()));
+		System.out.println(users.getDay(USER_ID, LocalDate.parse("2019-10-12")));
 	}
 
 	/**
@@ -227,7 +226,7 @@ public class UserServiceImplTest {
 	@Test
 	public final void testGetMonths()
 	{
-		fail("Not yet implemented"); // TODO
+		System.out.println(users.getMonths(USER_ID, LocalDate.parse("2019-06-30"), LocalDate.parse("2019-10-10")));
 	}
 
 	/**

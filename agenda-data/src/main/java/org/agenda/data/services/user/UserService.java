@@ -86,7 +86,7 @@ public interface UserService {
 
 	List<Month> getMonths(
 	    String userId,
-	    LocalDate fro,
+	    LocalDate from,
 	    LocalDate to
 	);
 

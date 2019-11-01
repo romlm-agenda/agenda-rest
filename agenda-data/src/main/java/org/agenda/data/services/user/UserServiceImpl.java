@@ -4,6 +4,7 @@
 package org.agenda.data.services.user;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -195,19 +196,32 @@ public class UserServiceImpl implements UserService {
 	    LocalDate date
 	)
 	{
-		// TODO Implement the method
-		return null;
+		LocalDate lastDayOfMonth = date
+		        .plusDays(YearMonth.of(date.getYear(), date.getMonth()).lengthOfMonth() - date.getDayOfMonth());
+		LocalDate firstDayOfMonth = date.minusDays(date.getDayOfMonth() - 1);
+		Month month = new Month();
+		month.setYearId(date.getYear());
+		month.setMonthId(date.getMonthValue());
+
+		month.setDays(this.getDays(userId, firstDayOfMonth, lastDayOfMonth));
+
+		return month;
 	}
 
 	@Override
 	public List<Month> getMonths(
 	    String userId,
-	    LocalDate fro,
+	    LocalDate from,
 	    LocalDate to
 	)
 	{
-		// TODO Implement the method
-		return null;
+		List<Month> months = new ArrayList<>();
+		for (LocalDate date = from.minusDays(from.getDayOfMonth() - 1); date.isBefore(to)
+		        || date.isEqual(to); date = date.plusMonths(1)) {
+			months.add(this.getMonth(userId, date));
+
+		}
+		return months;
 	}
 
 	@Override

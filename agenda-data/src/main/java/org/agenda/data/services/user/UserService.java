@@ -37,7 +37,7 @@ public interface UserService {
 
 	User updateUser(User user) throws NullPointerException;
 
-	Day saveDay(
+	Optional<Day> saveDay(
 	    String userId,
 	    Day day
 	);

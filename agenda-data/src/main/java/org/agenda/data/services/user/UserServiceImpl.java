@@ -91,12 +91,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Day saveDay(
+	public Optional<Day> saveDay(
 	    String userId,
 	    Day day
 	) throws NullPointerException
 	{
-		return users.saveDay(userId, day);
+		return Optional.ofNullable(users.saveDay(userId, day));
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
 	{
 		List<Day> results = new ArrayList<>();
 		for (Day day : days) {
-			results.add(this.saveDay(userId, day));
+			results.add(users.saveDay(userId, day));
 		}
 		return results;
 	}

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.agenda.model.User;
@@ -28,6 +29,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserControllerTest {
+
+	private static final String USER_ID = "5da1d52ceff9812c30ecc7bc";
 
 	@Autowired
 	private UserController users;
@@ -90,7 +93,9 @@ public class UserControllerTest {
 	@Test
 	public final void testRegister()
 	{
-		fail("Not yet implemented"); // TODO
+		User user = new User("", "test@test.fr", "test", "test", "test", LocalDate.parse("1985-05-31"));
+		ResponseEntity<Void> response = users.register(user);
+		assertTrue(response.getStatusCodeValue() == 200);
 	}
 
 	/**
@@ -114,7 +119,7 @@ public class UserControllerTest {
 		assertTrue(response.getStatusCodeValue() == 200);
 		User user = response.getBody();
 
-		response = users.getInfo(user.getId());
+		response = users.getInfo(USER_ID);
 		assertTrue(Optional.ofNullable(response.getBody()).isPresent());
 		assertTrue(response.getBody().toString().equals(user.toString()));
 

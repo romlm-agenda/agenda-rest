@@ -46,8 +46,9 @@ public class AuthFilter extends OncePerRequestFilter {
 			response.sendError(401, "missing api-key header");
 		} else if (!apiKeyHeader.get().equals(API_KEY)) {
 			response.sendError(401, "Invalid api-key provided");
+		} else {
+			filterChain.doFilter(request, response);
 		}
-		filterChain.doFilter(request, response);
 
 	}
 

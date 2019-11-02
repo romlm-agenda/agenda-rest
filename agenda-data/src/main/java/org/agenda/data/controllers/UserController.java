@@ -240,7 +240,7 @@ public class UserController {
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
 	{
-		return null;
+		return ResponseEntity.ok(users.getMonthBasedYear(userId, date));
 	}
 
 	@GetMapping("/private/years/week")

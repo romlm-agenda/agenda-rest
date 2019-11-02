@@ -111,7 +111,6 @@ public class UserController {
 		try {
 			User res = users.updateUser(user);
 			return ResponseEntity.ok(res);
-
 		} catch (NullPointerException e) {
 			return ResponseEntity.notFound().build();
 		}

@@ -47,8 +47,9 @@ public class UserAuthChecker extends OncePerRequestFilter {
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), "missing credentials");
 		} else if (!securityUserIdProxy.isUserValid(userIdParam.get(), userKeyHeader.get())) {
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), "unvalid credentials");
+		} else {
+			chain.doFilter(request, response);
 		}
-		chain.doFilter(request, response);
 	}
 
 }

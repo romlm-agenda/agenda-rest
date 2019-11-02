@@ -193,7 +193,7 @@ public class UserController {
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
 	{
-		return null;
+		return ResponseEntity.ok(users.getWeek(userId, date));
 	}
 
 	@GetMapping("/private/weeks")

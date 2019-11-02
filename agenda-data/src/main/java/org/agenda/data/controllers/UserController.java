@@ -212,7 +212,7 @@ public class UserController {
 	    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
 	)
 	{
-		return null;
+		return ResponseEntity.ok(users.getMonth(userId, date));
 	}
 
 	@GetMapping("/private/months")

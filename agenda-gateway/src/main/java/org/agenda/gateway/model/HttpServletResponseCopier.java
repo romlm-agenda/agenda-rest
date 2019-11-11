@@ -57,8 +57,13 @@ public class HttpServletResponseCopier extends HttpServletResponseWrapper {
 
 	public String getBody()
 	{
-		if (stream != null)
-			return String.valueOf(stream.getCopy());
+		if (stream != null) {
+			String res = "";
+			for (byte b : stream.getCopy()) {
+				res += (char) b;
+			}
+			return res;
+		}
 		return null;
 	}
 

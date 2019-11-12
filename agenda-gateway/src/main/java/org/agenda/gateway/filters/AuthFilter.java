@@ -36,12 +36,12 @@ public class AuthFilter extends OncePerRequestFilter {
 	    FilterChain filterChain
 	) throws ServletException, IOException
 	{
+		logger.info(request.getRemoteHost()
+		        + " IP address requested path "
+		        + request.getRequestURI());
 		Optional<String> apiKeyHeader = Optional.ofNullable(request.getHeader("api-key"));
 		if (!request.getRequestURI().contains("/api/")) {
 			response.sendError(401, "requested path is not authorized");
-			logger.error(request.getRemoteHost()
-			        + " IP address requested path "
-			        + request.getRequestURI());
 		} else if (apiKeyHeader.isEmpty()) {
 			response.sendError(401, "missing api-key header");
 		} else if (!apiKeyHeader.get().equals(API_KEY)) {

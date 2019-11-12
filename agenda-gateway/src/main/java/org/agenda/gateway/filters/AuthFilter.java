@@ -27,7 +27,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
 	private static final String API_KEY = "hello world!";
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthFilter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
 
 	@Override
 	protected void doFilterInternal(
@@ -36,16 +36,22 @@ public class AuthFilter extends OncePerRequestFilter {
 	    FilterChain filterChain
 	) throws ServletException, IOException
 	{
-		logger.info(request.getRemoteHost()
-		        + " IP address requested path "
-		        + request.getRequestURI());
 		Optional<String> apiKeyHeader = Optional.ofNullable(request.getHeader("api-key"));
 		if (!request.getRequestURI().contains("/api/")) {
 			response.sendError(401, "requested path is not authorized");
+			LOG.warn(request.getRemoteHost()
+		        + " IP address requested path "
+		        + request.getRequestURI()+" and threw error \"request path is not authorized\"");
 		} else if (apiKeyHeader.isEmpty()) {
 			response.sendError(401, "missing api-key header");
+			LOG.warn(request.getRemoteHost()
+			        + " IP address requested path "
+			        + request.getRequestURI()+" and threw error \"missing api-key header\"");
 		} else if (!apiKeyHeader.get().equals(API_KEY)) {
-			response.sendError(401, "Invalid api-key provided");
+			response.sendError(401, "invalid api-key provided");
+			LOG.warn(request.getRemoteHost()
+			        + " IP address requested path "
+			        + request.getRequestURI()+" and threw error \"invalid api-key provided\"");
 		} else {
 			filterChain.doFilter(request, response);
 		}

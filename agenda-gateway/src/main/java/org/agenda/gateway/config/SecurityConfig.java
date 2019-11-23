@@ -4,18 +4,18 @@
 package org.agenda.gateway.config;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.agenda.gateway.filters.UserAuthChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
@@ -23,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  *
  */
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -37,17 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().anyRequest().anonymous();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.setAllowedOrigins(Arrays.asList("*"));
-		corsConfig.setAllowCredentials(true);
-		corsConfig.setExposedHeaders(Arrays.asList("userAuthKey"));
-		corsConfig.setAllowedHeaders(Arrays.asList("userAuthKey", "userId"));
-		corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-		Map<String, CorsConfiguration> corsConfigurations = new HashMap<>();
-		corsConfigurations.put("/**", corsConfig);
-		corsConfigurationSource.setCorsConfigurations(corsConfigurations);
-		http.cors().configurationSource(corsConfigurationSource);
+		http.cors();
 	}
 
 	@Bean
@@ -59,6 +50,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filterReg.setUrlPatterns(props.getSecurity().getSecuredPaths());
 		filterReg.setOrder(2);
 		return filterReg;
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource()
+	{
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedHeaders(Arrays.asList("api-key", "userAuthKey", "userId"));
+		configuration.setExposedHeaders(Arrays.asList("api-key", "userAuthKey"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 }

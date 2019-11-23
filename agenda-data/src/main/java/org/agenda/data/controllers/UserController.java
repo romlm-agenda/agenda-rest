@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users/")
 public class UserController {
 
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService users;
@@ -58,10 +58,11 @@ public class UserController {
 	{
 		try {
 			User user = users.loginUser(email, password);
+			user.setPassword(null);
 			String userAuthKey = securityUser.getInstance(user.getId());
 			return ResponseEntity.ok().header("userAuthKey", userAuthKey).body(user);
 		} catch (BadCredentialsException e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();
 		}
 	}
@@ -70,10 +71,10 @@ public class UserController {
 	public ResponseEntity<Void> register(@RequestBody User user)
 	{
 		try {
-			user = users.createUser(user);
+			users.createUser(user);
 			return ResponseEntity.created(null).build();
 		} catch (DuplicateKeyException e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -87,6 +88,7 @@ public class UserController {
 
 			users.deleteUser(userId);
 		} catch (NullPointerException e) {
+			LOG.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.status(204).build();
@@ -97,9 +99,10 @@ public class UserController {
 	{
 		try {
 			User user = users.getInfos(userId);
+			user.setPassword(null);
 			return ResponseEntity.ok(user);
 		} catch (NullPointerException e) {
-			logger.error(String.format("user not found for id %s", userId), e);
+			LOG.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();
 		}
 
@@ -112,6 +115,7 @@ public class UserController {
 			User res = users.updateUser(user);
 			return ResponseEntity.ok(res);
 		} catch (NullPointerException e) {
+			LOG.error(e.getMessage(), e);
 			return ResponseEntity.notFound().build();
 		}
 	}

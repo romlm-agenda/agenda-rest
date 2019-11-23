@@ -83,7 +83,7 @@ public class LoggingFilter extends OncePerRequestFilter {
 			headerJoiner.add("\""
 			        + headerName
 			        + "\": \""
-			        + value.toString()
+			        + value.toString().replace("\"", "\'")
 			        + "\"");
 		}
 
@@ -131,7 +131,7 @@ public class LoggingFilter extends OncePerRequestFilter {
 			headerJoiner.add("\""
 			        + headerName
 			        + "\": \""
-			        + value.toString()
+			        + value.toString().replace("\"", "\'")
 			        + "\"");
 		}
 
@@ -139,7 +139,9 @@ public class LoggingFilter extends OncePerRequestFilter {
 		builder.append("}, \"body\": ");
 
 		String body = response.getBody();
-		if (body.startsWith("{") && body.endsWith("}"))
+		if (body == null)
+			builder.append("null");
+		else if (body.startsWith("{") && body.endsWith("}"))
 			builder.append(body);
 		else
 			builder.append("\"").append(body).append("\"");
